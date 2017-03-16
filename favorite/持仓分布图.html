@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>饼状图</title>
+
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,minimal-ui">
+    <meta name="format-detection" content="telephone=no">
+
+
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-family: 微软雅黑;
+            /*移除A标签样式*/
+            text-decoration: none;
+        }
+
+        #cvs {
+            background-color: #E6E6FA;
+            margin: 10px;
+            display: none;
+        }
+
+    </style>
+
+    <script src="../mlib/tools.js"></script>
+    <script type="text/javascript">
+
+        var defStr = `{"resultCode":"0000","resultMsg":null,"resultData":{"fund":{"ERMS":"0","ERMT":"资金查询成功!","ZJZH":"10630","BZ":"0","ZJYE":"546104.000000","KYZJ":"546104.000000","KQJE":"0.000000","ZCZZ":"1081156.000000","ZSZ":"535052.000000"},"hold":[{"ZJZH":"","JYSM":"0","ZQMC":"江苏阳光","ZQDM":"600220","BZ":"0","KMSL":"25000","ZXSZ":"107500.000000","CBJ":"4.330000","DQJG":"4.300000","ZQSL":"25000","FDYK":"-750.000000","GDDM":"1"},{"ZJZH":"","JYSM":"1","ZQMC":"华昌化工","ZQDM":"002274","BZ":"0","KMSL":"12000","ZXSZ":"105600.000000","CBJ":"8.570000","DQJG":"8.800000","ZQSL":"12000","FDYK":"2760.000000","GDDM":"1"},{"ZJZH":"","JYSM":"0","ZQMC":"兖州煤业","ZQDM":"600188","BZ":"0","KMSL":"0","ZXSZ":"0.000000","CBJ":"0.000000","DQJG":"10.910000","ZQSL":"0","FDYK":"0.000000","GDDM":"1"},{"ZJZH":"","JYSM":"1","ZQMC":"欣龙控股","ZQDM":"000955","BZ":"0","KMSL":"0","ZXSZ":"106848.000000","CBJ":"7.430000","DQJG":"7.420000","ZQSL":"14400","FDYK":"-144.000000","GDDM":"1"},{"ZJZH":"","JYSM":"1","ZQMC":"科迪乳业","ZQDM":"002770","BZ":"0","KMSL":"0","ZXSZ":"107040.000000","CBJ":"11.150000","DQJG":"11.150000","ZQSL":"9600","FDYK":"0.000000","GDDM":"1"},{"ZJZH":"","JYSM":"1","ZQMC":"泰合健康","ZQDM":"000790","BZ":"0","KMSL":"8800","ZXSZ":"108064.000000","CBJ":"12.240000","DQJG":"12.280000","ZQSL":"8800","FDYK":"352.000000","GDDM":"1"},{"ZJZH":"","JYSM":"0","ZQMC":"九牧王","ZQDM":"601566","BZ":"0","KMSL":"0","ZXSZ":"0.000000","CBJ":"0.000000","DQJG":"16.560000","ZQSL":"0","FDYK":"0.000000","GDDM":"1"}]}}`;
+
+        function CircleView(id) {
+
+            var textY;
+            var startX;
+            var startY;
+            var endX;
+            var endY;
+            var context;
+
+            var valList = [];
+            var infoList = [];
+
+            var colorList = ['#FF9C00', '#7C8DE5', '#FB5B34', '#FFCC00', '#6377E1', '#00BAFF', '#8296FF', '#FB3F11', '#536EF9', '#FFDE00'];
+
+            var self = this;
+
+            init();
+
+            function init() {
+                var canvas = document.getElementById(id);
+                if (canvas != null) {
+                    //重新计算宽高
+                    var width = document.body.clientWidth - 20;
+                    canvas.setAttribute('width', width + 'px');
+                    canvas.setAttribute('height', width * 2 / 3 + 'px');
+                    context = canvas.getContext('2d');
+                    //计算
+                    startX = 15;
+                    startY = 60;
+                    endX = context.canvas.width - 30;
+                    endY = context.canvas.height - 30;
+                    textY = 17;
+                }
+            }
+
+            self.initData = function (jsonStr) {
+                if (!checkNull(jsonStr)) {
+                    var data = JSON.parse(jsonStr);
+                    if (data.resultCode == '0000') {
+                        draw(context, data.resultData);
+                    }
+                }
+            };
+
+            function draw(context, resultData) {
+                if (context != null) {
+                    if (checkNull(resultData)) {
+                        context.canvas.style.display = 'none';
+                    } else {
+                        context.canvas.style.display = 'block';
+                        if (checkNull(resultData.fund)) {
+                            drawText(null, null, null);
+                        } else {
+                            drawText(resultData.fund.ZCZZ, resultData.fund.ZSZ, resultData.fund.KYZJ);
+                            if (checkNull(resultData.hold)) {
+                                drawArc(null, resultData.fund.KYZJ);
+                            } else {
+                                drawArc(resultData.hold, resultData.fund.KYZJ);
+                            }
+                        }
+                    }
+                }
+            }
+
+            function drawArc(holdList, cash) {
+                //画边框
+                context.lineWidth = 1;
+                context.strokeRect(startX, startY, endX - startX, endY - startY);
+                //画圆环
+                if (!checkNull(holdList) && holdList.length > 0) {
+                    for (var i = 0; i < holdList.length; i++) {
+                        if (holdList[i].ZXSZ > 0) {
+                            valList.push(parseFloat(holdList[i].ZXSZ));
+                            infoList.push(holdList[i].ZQMC);
+                        }
+                    }
+                }
+                valList.push(parseFloat(cash));
+                infoList.push('现金');
+                drawArcList();
+            }
+
+            function drawArcList() {
+                //计算总值
+                var total = 0;
+                for (var i = 0; i < valList.length; i++) {
+                    total += valList[i];
+                }
+                //设置宽度
+                context.lineWidth = 30;
+                var lastAngle = 0;
+                //画圆环
+                for (var i = 0; i < valList.length; i++) {
+                    context.strokeStyle = colorList[i];
+                    context.beginPath();
+                    var angle = Math.PI * 2 * (valList[i] / total);
+                    context.arc(startX + 150, (startY + endY) / 2, 70, lastAngle, lastAngle + angle, false);
+                    context.stroke();
+                    lastAngle += angle;
+                }
+                //文字描述
+                var topY = (endY + startY - (valList.length - 1) * 30) / 2;
+                for (var i = 0; i < valList.length; i++) {
+                    context.fillStyle = colorList[i];
+                    context.beginPath();
+                    context.arc(startX + 300, topY + i * 30, 5, 0, Math.PI * 2, false);
+                    context.fill();
+                    context.fillStyle = '#000';
+                    context.fillText(infoList[i], startX + 320, topY + i * 30 - 10);
+                }
+            }
+
+            function drawText(total, hold, cash) {
+                //文字设置
+                context.fillStyle = '#333333';
+                context.font = '16px 微软雅黑';
+                context.textBaseline = 'top';
+                //绘制文字
+                if (checkNull(total)) {
+                    total = '-';
+                }
+                if (checkNull(hold)) {
+                    hold = '-';
+                }
+                if (checkNull(cash)) {
+                    cash = '-';
+                }
+                context.fillText('总资产 ' + MathRound(total, 2), startX, textY);
+                var holdStr = '总持仓 ' + MathRound(hold, 2);
+                context.fillText(holdStr, (startX + endX) / 2 - context.measureText(holdStr).width / 2, textY);
+                var cashStr = '现金 ' + MathRound(cash, 2);
+                context.fillText(cashStr, endX - context.measureText(cashStr).width, textY);
+            }
+        }
+
+        window.onload = function () {
+            var circleView = new CircleView('cvs');
+            circleView.initData(defStr);
+        };
+
+    </script>
+
+</head>
+
+<body>
+<div id="layout">
+    <canvas id="cvs">您的浏览器不支持HTML5</canvas>
+</div>
+</body>
+</html>

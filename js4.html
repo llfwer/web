@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>正则表达式</title>
+
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,minimal-ui">
+    <meta name="format-detection" content="telephone=no">
+
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-family: 微软雅黑;
+            /*移除A标签样式*/
+            text-decoration: none;
+        }
+
+        /*文字不可选中*/
+        body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        #layout {
+            background-color: #E6E6FA;
+            margin: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #btn {
+            width: 80px;
+            height: 25px;
+            text-align: center;
+            background: #FFF;
+            border-radius: 10px;
+            border: 1px groove #FF4900;
+            cursor: pointer;
+        }
+
+        #txt1 img {
+            display: block;
+            width: 98%;
+        }
+    </style>
+
+    <script src="mlib/jquery-min.js"></script>
+    <script src="mlib/tools.js"></script>
+    <script type="text/javascript">
+
+        var defStr = `{"resultCode":"0000","resultMsg":null,"resultData":{"time":null,"deviceType":null,"platformType":null,"appId":null,"appVersion":null,"maxId":null,"channelNo":null,"manufacturer":null,"systemNo":null,"deviceId":null,"id":4,"groupId":185,"userId":10969265,"title":"震荡当中必须做的一件事","content":"<p>&nbsp; 昨天收评提示：“午后指数震荡回落，五日和十日均线走平，显示短线市场震荡回吐的压力加重。KDJ指数的高位死叉仍在延续，进一步向下扩散，表明短线调整尚有空间。”</p><p>&nbsp; 今天早盘股指低开后冲高回落，短线承压明显。随着两会临近，以及技术上的获利回吐压力加重，预计短线市场仍将震荡为主，上证指数重要支撑点在3200点附近区域，较强支撑在60天均线3170点区域。深圳两大指数同样面临短线压力。总体来看，下跌还是技术性调整性质，行情总体还将保持着退一进二的格局</p><p>&nbsp;&nbsp;<img src=\\"/upload/attachment/2017-02-28/1488267031093003031.jpg\\" title=\\"1488267031093003031.jpg\\" alt=\\"1.jpg\\"/></p><p>&nbsp; 早盘顺风再涨停，带动物流快递行业上涨，位居涨幅首位，建筑、次新股和工业4.0表现相对强势，钢铁、通信、医药等跌幅靠前，热点轮动较快，持续时间短，不利于短期赚钱效应的扩散，前期老热点如水泥等快速退潮，新热点还在培育之中。在换档震荡之际，投资者必须做好一件事，那就是调仓换筹工作，减持部分前期涨幅较大的品种，待回落后低吸，中小创市场当中，一部分品种已经开始显露出其投资的价值，更具体的投资品种，请大家收听今天收盘后本人的语音解盘提示分析。</p><p>&nbsp; 风险提示</p><p>&nbsp; 本人郑重强调：个人不会从事任何形式的代客理财、分成等非法证券业务，不会有任何形式的个人收款帐号，不会在任何公开场合，推荐任何具体投资标的，文中所提及个股，仅是案例分析并非个股推荐，据此买卖，盈亏自负!本博主请各位投资者不信谣不传谣，理性投资，谨防上当</p>","summary":"今天早盘股指低开后冲高回落，短线承压明显。","readCount":0,"type":1,"cost":0,"saleCount":0,"status":0,"createTime":"2017-02-28 15:31:22","updateTime":null,"publishTime":"2017-02-28 15:31:22","otherTag":"手牌","rewardCount":null,"userName":null,"avatar":null,"adviserType":null}}`;
+
+        //search
+        function test1(btnId, txt1Id, txt2Id) {
+            var btn = document.getElementById(btnId);
+            var txt1 = document.getElementById(txt1Id);
+            var txt2 = document.getElementById(txt2Id);
+            var str = 'Visit Runoob!';
+            txt1.innerHTML = '原文:' + str;
+            btn.onclick = function () {
+                txt2.innerHTML = '子串位置:' + str.search(/oo/i);
+            }
+        }
+
+        //图片点击
+        function test2() {
+            var json = JSON.parse(defStr);
+            $('#txt1').html(replaceFont(json.resultData.content));
+            $('#txt1 img').click(function (e) {
+                window.open(e.target.src, "newwindow");
+            });
+        }
+
+        //对象
+        function test3() {
+            var obj = {
+                fName: 'rowe',
+                lName: 'json',
+                fullName: function () {
+                    return this.fName + ' ' + this.lName;
+                }
+            };
+            $('#btn').click(function (e) {
+                document.getElementById('txt1').innerHTML = obj.fullName();
+                document.getElementById('txt2').innerHTML = obj.fullName;
+                document.getElementById('txt3').innerHTML = obj.fName;
+                document.getElementById('txt4').innerHTML = obj['fName'];
+            });
+        }
+
+        //闭包
+        function test4() {
+            var add = (function () {
+                var num = 0;
+                return function () {
+                    return num += 1;
+                };
+            })();
+            $('#btn').click(function () {
+                document.getElementById('txt1').innerHTML = add();
+            });
+        }
+
+        //遍历指定对象所有的属性名称和值
+        function test5() {
+            var arr = [];
+            arr[0] = 'hello';
+            arr[1] = 'world';
+            for (var p in arr) {
+                if (typeof(arr[p]) == 'function') {
+                    console.log(p + " func:" + arr[p]())
+                } else {
+                    console.log(p + "=" + arr[p])
+                }
+            }
+        }
+
+        //onbeforeunload1
+        function test6() {
+            /*<body onbeforeunload="return test6()">*/
+            return '你确定要重新加载吗?';
+        }
+
+        //onbeforeunload2
+        function test7() {
+            window.onbeforeunload = function (e) {
+                e.returnValue = '你确定要重新加载吗?';
+            };
+        }
+
+        //onbeforeunload3
+        function test8() {
+            window.addEventListener('beforeunload', function (e) {
+                e.returnValue = '你确定要重新加载吗?';
+            });
+        }
+
+        window.onload = function () {
+            test8();
+        };
+
+        function replaceFont(r_str) {
+            var _str = r_str;
+            _str = _str.replace(/&quot;/g, "\"");
+            _str = _str.replace(/<br\/>/gi, '');
+            _str = _str.replace(/\/g, "&#12;");
+            _str = _str.replace(/<IMG/g, "<img");
+            _str = _str.replace(/<img [^>]*src=['"]([^'"]+)[^>]*>/gi, function (match, capture) {
+                if (checkNull(capture.match(/http([^'"]*)/ig))) {
+                    return '<img width="100%" src="' + 'http://172.16.8.149:8080' + capture + '">';
+                } else {
+                    if (checkNull(capture.match(/icon_mp3.gif/ig))) {
+                        if (capture.indexOf("/ueditor/dialogs/emotion/images/test/") == -1) {
+                            return '<img width="100%" src="' + capture + '">';
+                        } else {
+                            return '<img src="' + capture + '">';
+                        }
+                    } else {
+                        return '';
+                    }
+                }
+            });
+            _str = _str.replace(/<audio [^>]*src=['"]([^'"]+)[^>]*>/gi, function (match, capture) {
+                if (checkNull(capture.match(/http([^'"]*)/ig))) {
+                    return '<audio style="width:100%;margin-top:8px;" controls="controls" src="' + ipHeader + capture + '">';
+                } else {
+                    return '<audio src="' + capture + '">';
+                }
+            });
+            return _str;
+        }
+
+    </script>
+
+</head>
+
+<body>
+<div id="layout">
+    <div id="btn" style="margin-left: 10px;margin-top: 10px">点我</div>
+    <div id="txt1" style="margin-left: 10px;margin-top: 10px;word-wrap: break-word"></div>
+    <div id="txt2" style="margin-left: 10px;margin-top: 10px;margin-bottom: 10px"></div>
+    <div id="txt3" style="margin-left: 10px;margin-top: 10px;margin-bottom: 10px"></div>
+    <div id="txt4" style="margin-left: 10px;margin-top: 10px;margin-bottom: 10px"></div>
+</div>
+</body>
+</html>
