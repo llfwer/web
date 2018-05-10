@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>jQuery使用指南</title>
+
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,minimal-ui">
+    <meta name="format-detection" content="telephone=no">
+
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-family: 微软雅黑;
+            /*移除A标签样式*/
+            text-decoration: none;
+        }
+
+        /*文字不可选中*/
+        body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        #layout {
+            margin: 10px;
+            /*display: flex;*/
+            flex-direction: column;
+        }
+
+        #btn {
+            width: 100px;
+            height: 30px;
+            text-align: center;
+            background: #FFFFFF;
+            border-radius: 10px;
+            border: 1px #FF4900 solid;
+        }
+
+        #txt1 {
+            height: 100px;
+            background-color: #E6E6FA;
+            text-align: center;
+            line-height: 100px;
+        }
+
+        #txt2 {
+            height: 100px;
+            background-color: #E6E6FA;
+            text-align: center;
+            line-height: 100px;
+        }
+
+        .red {
+            color: #FF4900;
+        }
+
+    </style>
+
+    <script src="lib/jquery-min.js"></script>
+    <script src="lib/tools.js"></script>
+    <script type="text/javascript">
+
+        //.html
+        function test1() {
+            $('#txt1').attr('style', 'color:red').html('Hello jQuery');
+        }
+
+        //判断传入的日期是否是今天
+        function test2() {
+            console.log(isToday('2017-03-10 15:31:22'));
+            console.log(isToday('2017-02-10 15:31:22'));
+            function isToday(str) {
+                var target = new Date(str);
+                var today = new Date();
+                return target.setHours(0, 0, 0, 0) == today.setHours(0, 0, 0, 0);
+            }
+        }
+
+        //hide() 和 show()
+        function test3() {
+            $('#txt2').hide();
+            $('#btn').click(function () {
+                $('#txt1').hide(1000, function () {
+                    $('#txt2').show();
+                });
+            });
+        }
+
+        //toggle()
+        function test4() {
+            $('#btn').click(function () {
+                $('#txt1').toggle();
+            });
+        }
+
+        //fadeIn()
+        function test5() {
+            $('#txt1').hide();
+            $('#btn').click(function () {
+                $('#txt1').fadeIn(1000, function () {
+                    console.log('我已经执行完成了');
+                });
+            });
+        }
+
+        //fadeIn()
+        function test6() {
+            $('#btn').click(function () {
+                $('#txt1').fadeOut(1000, function () {
+                    console.log('我已经执行完成了');
+                });
+            });
+        }
+
+        //fadeToggle()
+        function test7() {
+            $('#btn').click(function () {
+                $('#txt1').fadeToggle(1000, function () {
+                    console.log('我已经执行完成了');
+                });
+            });
+        }
+
+        //fadeTo()
+        function test8() {
+            $('#btn').click(function () {
+                $('#txt1').fadeTo(1000, 0.5, function () {
+                    $('#txt1').fadeTo(1000, 0.5);
+                    console.log('我已经执行完成了');
+                });
+            });
+        }
+
+        //slideDown()
+        function test9() {
+            $('#txt1').hide();
+            $('#btn').click(function () {
+                $('#txt1').slideDown(1000, function () {
+                    $('#txt2').slideToggle(1000);
+                    console.log('我已经执行完成了');
+                });
+            });
+        }
+
+        //slideUp()
+        function test10() {
+            $('#txt2').hide();
+            $('#btn').click(function () {
+                $('#txt1').slideUp(1000, function () {
+                    $('#txt2').slideToggle(1000);
+                    console.log('我已经执行完成了');
+                });
+            });
+        }
+
+        //slideToggle()
+        function test11() {
+            $('#txt2').hide();
+            $('#btn').click(function () {
+                $('#txt1').slideToggle(1000, function () {
+                    $('#txt2').slideToggle(1000);
+                    console.log('我已经执行完成了');
+                });
+            });
+        }
+
+        //animate()
+        function test12() {
+            $('#d1').show();
+            $('#btn').click(function () {
+                $('#d1').animate({left: '+=100px', opacity: '0.5', width: '150px', height: '150px'});
+            });
+        }
+
+        //animate() --> toggle
+        function test13() {
+            $('#d1').show();
+            $('#btn').click(function () {
+                $('#d1').animate({left: '100px', opacity: 'toggle', width: '+=10px', height: '+=10px'});
+            });
+        }
+
+        //animate()队列
+        function test14() {
+            $('#d1').show();
+            $('#btn').click(function () {
+                var div = $("#d1");
+                div.animate({height: '300px', opacity: '0.4'}, "slow");
+                div.animate({width: '300px', opacity: '0.8'}, "slow");
+                div.animate({height: '100px', opacity: '0.4'}, "slow");
+                div.animate({width: '100px', opacity: '0.8'}, "slow");
+            });
+        }
+
+        //stop()
+        function test15() {
+            $('#d1').show();
+            $('#d1').click(function () {
+                var div = $(this);
+                div.animate({height: '300px', opacity: '0.4'}, "slow");
+                div.animate({width: '300px', opacity: '0.8'}, "slow");
+                div.animate({height: '100px', opacity: '0.4'}, "slow");
+                div.animate({width: '100px', opacity: '0.8'}, "slow");
+            });
+            $('#btn').click(function () {
+                $('#d1').stop(true, true);
+            });
+        }
+
+        //text()回调 (html attr 同理)
+        function test16() {
+            $('#btn').click(function () {
+                $('#txt1').text(function (index, oldText) {
+                    //index为相同class的下表
+                    return index + ' : ' + oldText;
+                });
+            });
+        }
+
+        //append()
+        function test17() {
+            $('#btn').click(function () {
+                var txt1 = "<p>文本。</p>";              // 使用 HTML 标签创建文本
+                var txt2 = $("<p></p>").text("文本。");  // 使用 jQuery 创建文本
+                var txt3 = document.createElement("p");
+                txt3.innerHTML = "文本。";               // 使用 DOM 创建文本 text with DOM
+                $('#layout').append(txt1, txt2, txt3);        // 追加新元素
+            });
+        }
+
+        //before() after()
+        function test18() {
+            $('#txt1').click(function () {
+                $(this).before('<b>之前</b>');
+            });
+            $('#txt2').click(function () {
+                $(this).after('<b>之后</b>');
+            });
+        }
+
+        //remove() empty()
+        function test19() {
+            $('#txt1').click(function () {
+                $(this).remove();//清除位置
+            });
+            $('#txt2').click(function () {
+                $(this).empty();//还占位  还可以接受过滤条件
+            });
+        }
+
+        //class操作
+        function test20() {
+            $('#btn').click(function () {
+                $('#txt1').removeClass('red');
+            });
+            $('#txt1').click(function () {
+                $(this).addClass('red');
+            });
+            $('#txt2').click(function () {
+                $(this).toggleClass('red');
+            });
+        }
+
+        //css方法
+        function test21() {
+            $('#txt1').click(function () {
+                var methodList = getMethod($(this));
+                for (var i = 0; i < methodList.length; i++) {
+                    console.log(methodList[i].name + ' : ' + methodList[i].type);
+                }
+                console.log($(this).position().left);
+                console.log($(this).css('background-color'));
+            });
+            $('#txt2').click(function () {
+                $(this).css('background-color', '#FF4900');
+            });
+            $('#btn').click(function () {
+                $('#txt1').css('background-color', '#FF4900', 'font-size', '50%');
+            });
+        }
+
+        //width() 和 height()
+        function test22() {
+            var t1 = $('#txt1');
+            t1.html('宽度: ' + t1.width() + '   高度是: ' + t1.height());
+        }
+
+        //innerWidth() 和 innerHeight()
+        function test23() {
+            var t1 = $('#txt1');
+            t1.html('包含内边距宽度: ' + t1.innerWidth() + '   高度是: ' + t1.innerHeight());
+        }
+
+        //outerWidth() 和 outerWidth()
+        function test24() {
+            var t1 = $('#txt1');
+            t1.html('包含外边距宽度: ' + t1.outerWidth() + '   高度是: ' + t1.outerWidth());
+        }
+
+        //parent()方法返回被选元素的直接父元素。
+        function test25() {
+            $('#txt1').parent().css('border', '1px solid red');
+        }
+
+        //parents()方法返回被选元素的所有祖先元素，它一路向上直到文档的根元素 (<html>)。
+        function test26() {
+            $('#txt1').parents().css('border', '1px solid red');
+        }
+
+        //parents(x)您也可以使用可选参数来过滤对祖先元素的搜索。
+        function test27() {
+            $('#txt1').parents('div').css('border', '1px solid red');
+        }
+
+        //parentsUntil(x)方法返回介于两个给定元素之间的所有祖先元素。
+        function test28() {
+            $('#txt1').parentsUntil('body').css('border', '1px solid red');
+        }
+
+        //children()方法返回被选元素的所有直接子元素。
+        function test29() {
+            $('#layout').children().css('border', '1px solid red');
+        }
+
+        //children(x)您也可以使用可选参数来过滤对子元素的搜索。
+        function test30() {
+            $('#layout').children('#txt2').css('border', '1px solid red');
+        }
+
+        //find(x)  *代表所有
+        function test31() {
+            $('#layout').find('*').css('border', '1px solid red');
+        }
+
+        //AJAX load()
+        function test32() {
+            $('body').load('../mlib/tools.js', function (responseTxt, statusTxt, xhr) {
+                if (statusTxt == "success") {
+                    console.log("外部内容加载成功!");
+                }
+                if (statusTxt == "error") {
+                    console.log("Error: " + xhr.status + ": " + xhr.statusText);
+                }
+            });
+        }
+
+        //AJAX ajax()
+        function test33() {
+            $.ajax({
+                type: 'GET',//请求方式
+                async: true,//是否异步
+                url: 'http://www.tuling123.com/openapi/api',//URL
+                data: {'key': '959003dc78294ecbbd3337b82932968f', 'info': '武汉'},//请求参数
+
+                dataType: "json",//数据返回值类型
+
+                beforeSend: function (xhr) {
+                    //请求前的处理
+                    //xhr.setRequestHeader('Content-Type','text');
+                },
+
+                success: function (data) {
+                    //请求成功处理，和本地回调完全一样
+                    $('#txt1').html(data.text);
+                },
+
+                complete: function () {
+                    //请求完成的处理
+                },
+
+                error: function () {
+                    //请求出错处理
+                    $('#txt1').html('error!!!');
+                }
+            });
+        }
+
+        //noConflict() 方法
+        function test34() {
+            $.noConflict();
+            jQuery('#txt1').text('noConflict() 方法会释放会 $ 标识符的控制，这样其他脚本就可以使用它了。')
+        }
+
+        //AJAX JSONP
+        function test35() {
+            $.getJSON('http://www.runoob.com/try/ajax/jsonp.php?jsoncallback=?', function (data) {
+                var html = '<ul>';
+                for (var i = 0; i < data.length; i++) {
+                    html += '<li>' + data[i] + '</li>';
+                }
+                html += '</ul>';
+                $('#layout').html(html);
+            })
+        }
+
+        $(document).ready(test35);
+
+        //遍历属性和方法
+        function getMethod(obj) {
+            var resultArr = [];
+            for (p in obj) {
+                var tempArr = {};
+                tempArr.name = p;
+                tempArr.type = typeof(obj[p]);
+                resultArr.push(tempArr);
+            }
+            resultArr = sortA(resultArr);
+            return resultArr;
+        }
+
+        function sortA(arr) {
+            for (var i = 0; i < arr.length; i++) {
+                for (var j = i; j < arr.length; j++) {
+                    if (arr[i].name > arr[j].name) {
+                        var temp = arr[i];
+                        arr[i] = arr[j];
+                        arr[j] = temp;
+                    }
+                }
+            }
+            return arr;
+        }
+
+    </script>
+</head>
+
+<body>
+<div id="layout">
+    <div id="btn" style="margin-left: 10px;margin-top: 10px">点我</div>
+    <div id="txt1" style="margin-left: 10px;margin-top: 10px;word-wrap: break-word">谁是猴子派来的救兵?</div>
+    <div id="txt2" style="margin-left: 10px;margin-top: 10px;margin-bottom: 10px">你就是猴子派来的救兵</div>
+    <div id="d1"
+         style="position: absolute;width: 100px;height: 100px;background-color: #FF4900;left: 10px;display: none"></div>
+</div>
+</body>
+</html>

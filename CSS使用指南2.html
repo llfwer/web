@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>CSS使用指南2</title>
+
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,minimal-ui">
+    <meta name="format-detection" content="telephone=no">
+
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+
+        body {
+            font-family: 微软雅黑;
+            counter-reset: aIndex;
+        }
+
+        /*图片廊*/
+        #d1 > div {
+            float: left;
+            margin: 10px;
+            border: 1px solid #DDDDDD;
+        }
+
+        #d1 > div:hover {
+            border: 1px solid #888888;
+        }
+
+        #d1 > div > img {
+            display: block;
+            max-width: 200px;
+        }
+
+        #d1 > div > div {
+            text-align: center;
+            background: #EEEEEE;
+            padding: 5px;
+        }
+
+        /*图像拼合技术*/
+        #d2 img {
+            width: 46px;
+            height: 44px;
+            float: left;
+            margin-left: 10px;
+        }
+
+        #d2 img:first-child {
+            background: url("../images/img_navsprites.gif") 0, 0;
+        }
+
+        #d2 img:last-child {
+            background: url("../images/img_navsprites.gif") -91px, 0;
+        }
+
+        /*CSS属性选择器*/
+        [title=hello] {
+            color: #FF4900;
+        }
+
+        [title~=hello] {
+            /*title属性中包含hello字段*/
+            background-color: #888888;
+        }
+
+        [title|=hello] {
+            border: 1px solid #4CAF50;
+        }
+
+        /*CSS内容生成之添加URL*/
+        #d4 a:after {
+            content: '(' attr(href) ')';
+        }
+
+        /*CSS内容生成之页面统计*/
+        #d5 a:after {
+            counter-increment: aIndex;
+            content: '(第' counter(aIndex, decimal) '个)';
+        }
+    </style>
+</head>
+
+<body>
+<div id="layout">
+    <!--图片廊-->
+    <div id="d1">
+        <div>
+            <img style="max-width: 200px" src="http://static.runoob.com/images/demo/demo1.jpg">
+            <div style="text-align: center">这里添加图片文本描述</div>
+        </div>
+        <div>
+            <img style="" src="http://static.runoob.com/images/demo/demo2.jpg">
+            <div>这里添加图片文本描述</div>
+        </div>
+        <div>
+            <img style="max-width: 200px" src="http://static.runoob.com/images/demo/demo3.jpg">
+            <div>这里添加图片文本描述</div>
+        </div>
+        <div>
+            <img style="max-width: 200px" src="http://static.runoob.com/images/demo/demo4.jpg">
+            <div>这里添加图片文本描述</div>
+        </div>
+    </div>
+    <!--图像拼合技术-->
+    <div id="d2" style="clear: both;margin-top: 10px">
+        <img>
+        <img>
+    </div>
+    <!--CSS属性选择器-->
+    <div style="clear: both;padding-top: 10px;margin-left: 10px">
+        <div title="hello world">CSS属性选择器1</div>
+        <div title="hi hello">CSS属性选择器2</div>
+        <div title="hi hello world">CSS属性选择器3</div>
+        <div title="hello">CSS属性选择器4</div>
+        <div title="world">CSS属性选择器5</div>
+    </div>
+    <!--盒子模型-->
+    <div id="d3"
+         style="margin-top: 10px;margin-left: 10px;border: 1px solid #DDDDDD;display: inline-block;position: relative;padding-bottom: 0;width: 200px;height: 120px">
+        <img style="width: 200px;height: 120px" src="../images/tree.jpg">
+        <div style="position: absolute;top: 0;line-height:120px;text-align: center;color: white;width: 200px">
+            移动鼠标到此移动鼠标到此
+        </div>
+    </div>
+    <!--CSS内容生成之添加URL-->
+    <div id="d4" style="margin-left: 10px;margin-top: 10px">
+        <p><a href="http://www.sina.com.cn/">新浪财经</a>创建于1999年8月，经过近10年的发展壮大，已经成为全球华人的最知名的财经门户网站。</p>
+        <p><a href="http://www.qq.com/">腾讯公司</a>成立于1998年11月，是目前中国最大的互联网综合服务提供商之一，也是中国服务用户最多的互联网企业之一。</p>
+        <p><a href="http://www.hexun.com/">和讯</a>创立于 1996年，是中国最早的专业财经网站之一，目前已经发展成为中国最大的在线及移动财经服务提供商。</p>
+    </div>
+    <!--CSS内容生成之页面统计-->
+    <div id="d5" style="margin-left: 10px;margin-top: 10px">
+        <p><a href="http://www.sina.com.cn/">新浪财经</a>创建于1999年8月，经过近10年的发展壮大，已经成为全球华人的最知名的财经门户网站。</p>
+        <p><a href="http://www.qq.com/">腾讯公司</a>成立于1998年11月，是目前中国最大的互联网综合服务提供商之一，也是中国服务用户最多的互联网企业之一。</p>
+        <p><a href="http://www.hexun.com/">和讯</a>创立于 1996年，是中国最早的专业财经网站之一，目前已经发展成为中国最大的在线及移动财经服务提供商。</p>
+    </div>
+</div>
+</body>
+</html>

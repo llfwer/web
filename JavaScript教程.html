@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>JavaScript教程</title>
+
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,minimal-ui">
+    <meta name="format-detection" content="telephone=no">
+
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-family: 微软雅黑;
+            /*移除A标签样式*/
+            text-decoration: none;
+        }
+
+        #layout {
+            background-color: #E6E6FA;
+            height: 200px;
+            margin: 10px;
+            display: none;
+        }
+
+        .portItem {
+            list-style: none;
+        }
+
+        .title {
+            width: 100%;
+            height: 45px;
+            /*行高与div高度一致，则文字垂直居中 */
+            line-height: 45px;
+            border-top: 10px solid #F0F0F0;
+            border-bottom: 1px solid #F0F0F0;
+            padding-left: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            color: black;
+        }
+
+        .portContent {
+            display: flex;
+            width: 100%;
+            height: 90px;
+            border-bottom: 1px solid #F0F0F0;
+            align-items: center;
+        }
+
+        .pLeft {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 70px;
+            height: 70px;
+            background: #F8B535;
+            border-radius: 60px;
+            margin-left: 10px;
+        }
+
+        .pLeft div {
+            color: #FFFFFF;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .pRight {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            flex: 1;
+            height: auto;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        .p1 {
+            display: flex;
+        }
+
+        .pName {
+            flex: 1;
+            color: #000;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .pDate {
+            color: #666666;
+        }
+
+        .p2 {
+            display: flex;
+            margin-top: 5px;
+        }
+
+        .pTarget {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            justify-content: center;
+            border-left: 1px solid #F0F0F0;
+        }
+
+        .p2 div {
+            text-align: center;
+        }
+
+        .pLabel3 {
+            color: red;
+        }
+
+        .pLabel2 {
+            color: black;
+        }
+
+        .pLabel1 {
+            color: #666666;
+            margin-top: 3px;
+        }
+    </style>
+
+    <script src="lib/tools.js"></script>
+    <script type="text/javascript">
+
+        var defStr = `{"resultCode":"0000","resultMsg":"正确返回","resultData":{"portfolioList":[{"successRate":null,"maxDrawdown":null,"historyBests":null,"achieveGoal":null,"id":100103,"userId":10969265,"portfolioName":"中信建投组合","intro":"中信建投组合","target":3,"startTime":"2017-02-06 15:00:00","duration":30,"capital":10000,"type":1,"cost":0,"createTime":"2017-02-17 09:42:00","updateTime":"2017-02-17 09:42:00","status":6,"username":null,"endTime":"2017-03-06 15:00:00","firstOrNotOver":null,"portfolioMoney":null,"startOrNot":1,"avatar":null,"adviserType":null,"dayNetValue":null,"portfolioTarget":"1万以下","totalProfit":null,"subscribeCount":0,"totalProfitRate":0},{"successRate":null,"maxDrawdown":null,"historyBests":null,"achieveGoal":null,"id":100076,"userId":10969265,"portfolioName":"中信建投组合","intro":"中信建投组合","target":3,"startTime":"2017-02-06 15:00:00","duration":30,"capital":10000,"type":1,"cost":0,"createTime":"2017-02-14 15:26:54","updateTime":"2017-02-14 15:26:54","status":6,"username":null,"endTime":"2017-03-06 15:00:00","firstOrNotOver":null,"portfolioMoney":null,"startOrNot":1,"avatar":null,"adviserType":null,"dayNetValue":null,"portfolioTarget":"1万以下","totalProfit":null,"subscribeCount":0,"totalProfitRate":0},{"successRate":null,"maxDrawdown":null,"historyBests":null,"achieveGoal":null,"id":100075,"userId":10969265,"portfolioName":"中信建投组合","intro":"中信建投组合","target":3,"startTime":"2017-02-06 15:00:00","duration":30,"capital":10000,"type":1,"cost":0,"createTime":"2017-02-14 15:15:14","updateTime":"2017-02-14 15:15:14","status":6,"username":null,"endTime":"2017-03-06 15:00:00","firstOrNotOver":null,"portfolioMoney":null,"startOrNot":1,"avatar":null,"adviserType":null,"dayNetValue":null,"portfolioTarget":"1万以下","totalProfit":null,"subscribeCount":0,"totalProfitRate":0}]}}`;
+
+        //点击显示时间
+        function test1(id) {
+            var layout = document.getElementById(id);
+            var sp = document.createElement('div');
+            var btn = document.createElement('button');
+            btn.innerHTML = '点击显示时间';
+            btn.onclick = function () {
+                sp.innerHTML = new Date().toString();
+            };
+            layout.appendChild(sp);
+            layout.appendChild(btn);
+        }
+
+        //监控键盘
+        function test2(id) {
+            var layout = document.getElementById(id);
+            var div = document.createElement('button');
+            layout.appendChild(div);
+            document.onkeydown = function (e) {
+                console.log(e.keyCode);
+                div.innerHTML = e.keyCode;
+            };
+        }
+
+        //验证输入的数字
+        function test3(id) {
+            var layout = document.getElementById(id);
+            var div = document.createElement('div');
+            div.innerHTML = `<h1>JavaScript 验证输入</h1><p>请输入 1 到 10 之间的数字：</p><input id="numb"><button type="button" id="btn">提交</button><p id="demo"></p>`;
+            layout.appendChild(div);
+            var btn = document.getElementById('btn');
+            btn.onclick = function () {
+                var x, text;
+
+                // 获取 id="numb" 的值
+                x = document.getElementById("numb").value;
+
+                // 如果输入的值 x 不是数字或者小于 1 或者大于 10，则提示错误 Not a Number or less than one or greater than 10
+                if (isNaN(x) || x < 1 || x > 10) {
+                    text = "输入错误";
+                } else {
+                    text = "输入正确";
+                }
+                document.getElementById("demo").innerHTML = text;
+            };
+        }
+
+        //生成列表
+        function test4(id, str) {
+            console.log(typeof(str));
+            let data = JSON.parse(str);
+            console.log(typeof(data));
+            if (data.resultCode == '0000' && !checkNull(data.resultData) && !checkNull(data.resultData.portfolioList)) {
+                var portList = data.resultData.portfolioList;
+                let portLen = portList.length;
+                if (portLen > 0) {
+                    var list = document.getElementById(id);
+                    var tmpHtml = '<div class="title">TA的组合</div><ul>';
+                    for (var i = 0; i < portLen; i++) {
+                        tmpHtml += '<li class="portItem"><a href="http://www.baidu.com"><div class="portContent"><div class="pLeft"><div>'
+                            + portList[i].target + '%</div><div>目标收益</div></div><div class="pRight"><div class="p1"><div class="pName">'
+                            + portList[i].id + '</div><div class="pDate">'
+                            + portList[i].startTime + '到期</div></div><div class="p2"><div class="pTarget"><div class="pLabel3">'
+                            + portList[i].target + '</div><div class="pLabel1">总收益</div></div><div class="pTarget"><div class="pLabel3">'
+                            + portList[i].totalProfitRate + '</div><div class="pLabel1">成功率</div></div><div class="pTarget"><div class="pLabel2">'
+                            + portList[i].duration + '</div><div class="pLabel1">运行周期</div> </div> </div> </div> </div> </a> </li>';
+                    }
+                    tmpHtml += '</ul></div>';
+                    list.innerHTML = tmpHtml;
+                }
+            }
+        }
+
+        window.onload = function () {
+            test4('list', defStr);
+        };
+
+    </script>
+
+</head>
+
+<body>
+<div id="layout">
+</div>
+<div id="list">
+    <div class="title">TA的组合</div>
+    <ul>
+        <li class="portItem"><a href="http://www.baidu.com">
+            <div class="portContent">
+                <div class="pLeft">
+                    <div>30%</div>
+                    <div>目标收益</div>
+                </div>
+                <div class="pRight">
+                    <div class="p1">
+                        <div class="pName">中心箭头组合</div>
+                        <div class="pDate">2017/03/06到期</div>
+                    </div>
+                    <div class="p2">
+                        <div class="pTarget">
+                            <div class="pLabel3">10%</div>
+                            <div class="pLabel1">总收益</div>
+                        </div>
+                        <div class="pTarget">
+                            <div class="pLabel3">10%</div>
+                            <div class="pLabel1">成功率</div>
+                        </div>
+                        <div class="pTarget">
+                            <div class="pLabel2">3个月</div>
+                            <div class="pLabel1">运行周期</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

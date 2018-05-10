@@ -1,0 +1,62 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="./webNativeCommunicate.js"></script>
+</head>
+<body>
+<fieldset>
+    <legend>输入</legend>
+    <div style="margin-bottom:10px;">
+        cmd: <input class="cmdInput" type="text"/>
+    </div>
+    <div>
+        option: <textarea class="optionInput" style="width: 200px; height: 100px;"></textarea>
+    </div>
+    <div style="margin-top: 10px;">
+        <input class="sumbitBtn" type="button" value="提交"/>
+    </div>
+</fieldset>
+
+<fieldset style="margin-top: 10px;">
+    <legend>输出</legend>
+    <div style="margin-bottom:10px;">
+        code: <input class="codeOutput" type="text"/>
+    </div>
+    <div>
+        option: <textarea class="optionOutput" style="width: 200px; height: 100px;"></textarea>
+    </div>
+    <div>
+        event: <textarea class="eventOutput" style="width: 200px; height: 100px;"></textarea>
+    </div>
+</fieldset>
+</body>
+
+<script>
+    var cmdInput = document.querySelector(".cmdInput");
+    var optionInput = document.querySelector(".optionInput");
+    var sumbitBtn = document.querySelector(".sumbitBtn");
+    var optionOutput = document.querySelector(".optionOutput");
+    var codeOutput = document.querySelector(".codeOutput");
+    var eventOutput = document.querySelector(".eventOutput");
+
+    sumbitBtn.addEventListener("click", function (e) {
+        var cmd = cmdInput.value;
+        var option = optionInput.value;
+
+        option = JSON.parse(option);
+        console.log("option: ", cmd, option);
+        option.callback = function (code, param) {
+            codeOutput.value = code;
+            optionOutput.value = JSON.stringify(param);
+        };
+
+        var handle = function (param) {
+            eventOutput.value = JSON.stringify(param);
+        }
+        upNativeComm.addEventListener("networkManager", handle);
+        upNativeComm.exec(cmd, option);
+    }, false);
+
+
+</script>
+</html>

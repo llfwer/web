@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>CSS3使用指南</title>
+
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,minimal-ui">
+    <meta name="format-detection" content="telephone=no">
+
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+
+        body {
+            font-family: 微软雅黑;
+            padding: 10px;
+        }
+
+        /*div旋转*/
+        #d1 > div {
+            width: 100px;
+            height: 75px;
+            background-color: red;
+            border: 1px solid black;
+        }
+
+        #d1 > div:last-child {
+            position: absolute;
+            top: 20px;
+            left: 200px;
+            transform: rotate(30deg);
+            -ms-transform: rotate(30deg); /* IE 9 */
+            -webkit-transform: rotate(30deg); /* Safari and Chrome */
+        }
+
+        /*div阴影*/
+        #d2 > div {
+            width: 300px;
+            height: 100px;
+            margin-top: 50px;
+            text-align: center;
+            line-height: 100px;
+            background: #FF4900;
+            box-shadow: 10px 10px 5px #888888;
+        }
+
+        /*边界图片*/
+        #d3 > div {
+            margin-top: 30px;
+            width: 300px;
+            border: 20px solid transparent;
+            padding: 15px;
+            -webkit-border-image: url("../images/border.png") 30 30 round; /* Safari 5 and older */
+            -o-border-image: url("../images/border.png") 30 30 round; /* Opera */
+            border-image: url("../images/border.png") 30 30 round;
+        }
+
+        /*椭圆边角*/
+        #d4 > div {
+            width: 200px;
+            height: 120px;
+            margin-top: 30px;
+            background: #8AC007;
+            border-radius: 50%; /*50px/60px*/
+            text-align: center;
+            line-height: 120px;
+        }
+
+        /*background-size 属性*/
+        #d5 > div {
+            width: 400px;
+            height: 200px;
+            margin-top: 30px;
+            text-align: center;
+            line-height: 200px;
+            background: url("../images/bg1.jpg") no-repeat;
+            background-size: 100% 100%;
+        }
+
+        /*background-Origin属性*/
+        #d6 > div {
+            width: 300px;
+            margin-top: 30px;
+            padding: 30px;
+            border: 1px solid #FF4900;
+            background: url("images/spig.png") no-repeat;
+            background-size: 40px 40px;
+            /*在内容区域显示背景图片*/
+            background-origin: content-box;
+        }
+
+        /*从上到下的线性渐变*/
+        #d7 > div {
+            background: -webkit-linear-gradient(red, blue); /* Safari 5.1 - 6.0 */
+            background: -o-linear-gradient(red, blue); /* Opera 11.1 - 12.0 */
+            background: -moz-linear-gradient(red, blue); /* Firefox 3.6 - 15 */
+            background: linear-gradient(red, blue); /* 标准的语法（必须放在最后） */
+        }
+
+        /*从左到右的线性渐变*/
+        #d8 > div {
+            background: -webkit-linear-gradient(left, red, blue); /* Safari 5.1 - 6.0 */
+            background: -o-linear-gradient(right, red, blue); /* Opera 11.1 - 12.0 */
+            background: -moz-linear-gradient(right, red, blue); /* Firefox 3.6 - 15 */
+            background: linear-gradient(to right, red, blue); /* 标准的语法（必须放在最后） */
+        }
+
+        /*从左上角到右下角的线性渐变*/
+        #d9 > div {
+            background: -webkit-linear-gradient(left top, red, blue); /* Safari 5.1 - 6.0 */
+            background: -o-linear-gradient(bottom right, red, blue); /* Opera 11.1 - 12.0 */
+            background: -moz-linear-gradient(bottom right, red, blue); /* Firefox 3.6 - 15 */
+            background: linear-gradient(to bottom right, red, blue); /* 标准的语法（必须放在最后） */
+        }
+
+        /*带有多个颜色结点的从上到下的线性渐变*/
+        #d10 > div {
+            background: -webkit-linear-gradient(red, orange, yellow, green, blue, indigo, violet); /* Safari 5.1 - 6.0 */
+            background: -o-linear-gradient(red, orange, yellow, green, blue, indigo, violet); /* Opera 11.1 - 12.0 */
+            background: -moz-linear-gradient(red, orange, yellow, green, blue, indigo, violet); /* Firefox 3.6 - 15 */
+            background: linear-gradient(red, orange, yellow, green, blue, indigo, violet); /* 标准的语法（必须放在最后） */
+        }
+
+        /*多颜色线性渐变非均匀分布*/
+        #d11 > div {
+            background: -webkit-linear-gradient(red 10%, green 85%, blue 90%); /* Safari 5.1 - 6.0 */
+            background: -o-linear-gradient(red 10%, green 85%, blue 90%); /* Opera 11.1 - 12.0 */
+            background: -moz-linear-gradient(red 10%, green 85%, blue 90%); /* Firefox 3.6 - 15 */
+            background: linear-gradient(red 10%, green 85%, blue 90%); /* 标准的语法（必须放在最后） */
+        }
+
+        /*从左到右的线性渐变，带有透明度*/
+        #d12 > div {
+            background: -webkit-linear-gradient(left, rgba(255, 0, 0, 0), rgba(255, 0, 0, 1)); /* Safari 5.1 - 6.0 */
+            background: -o-linear-gradient(right, rgba(255, 0, 0, 0), rgba(255, 0, 0, 1)); /* Opera 11.1 - 12.0 */
+            background: -moz-linear-gradient(right, rgba(255, 0, 0, 0), rgba(255, 0, 0, 1)); /* Firefox 3.6 - 15 */
+            background: linear-gradient(to right, rgba(255, 0, 0, 0), rgba(255, 0, 0, 1)); /* 标准的语法（必须放在最后） */
+        }
+
+        /*重复的线性渐变*/
+        #d13 > div {
+            background: -webkit-repeating-linear-gradient(red, yellow 10%, green 20%); /* Safari 5.1 - 6.0 */
+            background: -o-repeating-linear-gradient(red, yellow 10%, green 20%); /* Opera 11.1 - 12.0 */
+            background: -moz-repeating-linear-gradient(red, yellow 10%, green 20%); /* Firefox 3.6 - 15 */
+            background: repeating-linear-gradient(red, yellow 10%, green 20%); /* 标准的语法（必须放在最后） */
+        }
+
+        /*颜色结点均匀分布的径向渐变*/
+        #d14 > div {
+            background: -webkit-radial-gradient(red, green, blue); /* Safari 5.1 - 6.0 */
+            background: -o-radial-gradient(red, green, blue); /* Opera 11.6 - 12.0 */
+            background: -moz-radial-gradient(red, green, blue); /* Firefox 3.6 - 15 */
+            background: radial-gradient(red, green, blue); /* 标准的语法（必须放在最后） */
+        }
+
+        /*颜色结点不均匀分布的径向渐变*/
+        #d15 > div {
+            background: -webkit-radial-gradient(red 5%, green 15%, blue 60%); /* Safari 5.1 - 6.0 */
+            background: -o-radial-gradient(red 5%, green 15%, blue 60%); /* Opera 11.6 - 12.0 */
+            background: -moz-radial-gradient(red 5%, green 15%, blue 60%); /* Firefox 3.6 - 15 */
+            background: radial-gradient(red 5%, green 15%, blue 60%); /* 标准的语法（必须放在最后） */
+        }
+
+        /*形状为圆形的径向渐变*/
+        #d16 > div {
+            background: -webkit-radial-gradient(circle, red, yellow, green); /* Safari 5.1 - 6.0 */
+            background: -o-radial-gradient(circle, red, yellow, green); /* Opera 11.6 - 12.0 */
+            background: -moz-radial-gradient(circle, red, yellow, green); /* Firefox 3.6 - 15 */
+            background: radial-gradient(circle, red, yellow, green); /* 标准的语法（必须放在最后） */
+        }
+
+        /*重复的径向渐变*/
+        #d17 > div {
+            background: -webkit-repeating-radial-gradient(red, yellow 10%, green 15%); /* Safari 5.1 - 6.0 */
+            background: -o-repeating-radial-gradient(red, yellow 10%, green 15%); /* Opera 11.6 - 12.0 */
+            background: -moz-repeating-radial-gradient(red, yellow 10%, green 15%); /* Firefox 3.6 - 15 */
+            background: repeating-radial-gradient(red, yellow 10%, green 15%); /* 标准的语法（必须放在最后） */
+        }
+
+        /*文本阴影*/
+        #d18 > div {
+            margin-top: 30px;
+            height: 100px;
+            width: 200px;
+            line-height: 100px;
+            text-align: center;
+            font-size: 30px;
+            font-weight: bold;
+            text-shadow: 3px 3px 3px #888888;
+        }
+
+        /*盒子阴影*/
+        #d19 > div {
+            height: 100px;
+            width: 200px;
+            background: #FF4900;
+            box-shadow: 5px 5px 5px #666666;
+        }
+
+        /*利用::after伪元素添加阴影效果*/
+        #d20 {
+            position: relative;
+            background: white;
+            -moz-box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.5);
+            -webkit-box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+            box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+        }
+
+        #d20::after {
+            content: '';
+            position: absolute;
+            z-index: -1; /* hide shadow behind image */
+            -webkit-box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+            -moz-box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+            width: 70%;
+            left: 15%; /* one half of the remaining 30% */
+            height: 100px;
+            bottom: 0;
+        }
+
+        /*文字卡片效果*/
+        #d21 {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        /*图片卡片效果*/
+        #d22 {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        /*CSS3字体*/
+        @font-face {
+            font-family: myFont;
+            src: url('../assets/HYZhangNaiRenXingShuW.ttf');
+        }
+
+        #d23 {
+            height: 150px;
+            font-family: myFont;
+            font-size: 30px;
+        }
+    </style>
+</head>
+
+<body>
+<div id="layout">
+    <!--div旋转-->
+    <div id="d1">
+        <div>你好。这是一个 DIV 元素。</div>
+        <div>你好。这是一个 DIV 元素。</div>
+    </div>
+    <!--div阴影-->
+    <div id="d2" style="float:left">
+        <div>这里要有阴影</div>
+    </div>
+    <!--边界图片-->
+    <div id="d3" style="float:left;margin-left: 20px">
+        <div>这里，图像平铺（重复）来填充该区域。</div>
+    </div>
+    <!--椭圆边角-->
+    <div id="d4" style="float:left;margin-left: 20px">
+        <div>椭圆边角</div>
+    </div>
+    <!--background-size 属性-->
+    <div id="d5" style="float:left;margin-left: 20px">
+        <div>设置背景图片尺寸</div>
+    </div>
+    <!--background-Origin属性-->
+    <div id="d6" style="float:left;margin-left: 20px">
+        <div>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
+            laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
+            ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+        </div>
+    </div>
+    <!--从上到下的线性渐变-->
+    <div id="d7" style="float:left">
+        <div style="width: 400px;height: 200px;margin-top: 30px;text-align: center;line-height: 200px">
+            从上到下的线性渐变
+        </div>
+    </div>
+    <!--从左到右的线性渐变-->
+    <div id="d8" style="float:left;margin-left: 20px">
+        <div style="width: 400px;height: 200px;margin-top: 30px;text-align: center;line-height: 200px">从左到右的线性渐变</div>
+    </div>
+    <!--从左上角到右下角的线性渐变-->
+    <div id="d9" style="float:left;margin-left: 20px">
+        <div style="width: 400px;height: 200px;margin-top: 30px;text-align: center;line-height: 200px">从左上角到右下角的线性渐变
+        </div>
+    </div>
+    <!--带有多个颜色结点的从上到下的线性渐变-->
+    <div id="d10" style="float:left;margin-left: 20px">
+        <div style="width: 400px;height: 200px;margin-top: 30px;text-align: center;line-height: 200px">
+            带有多个颜色结点的从上到下的线性渐变
+        </div>
+    </div>
+    <!--多颜色线性渐变非均匀分布-->
+    <div id="d11" style="float:left">
+        <div style="width: 400px;height: 200px;margin-top: 30px;text-align: center;line-height: 200px">
+            多颜色线性渐变非均匀分布
+        </div>
+    </div>
+    <!--从左到右的线性渐变，带有透明度-->
+    <div id="d12" style="float:left;margin-left: 20px">
+        <div style="width: 400px;height: 200px;margin-top: 30px;text-align: center;line-height: 200px">
+            从左到右的线性渐变，带有透明度
+        </div>
+    </div>
+    <!--重复的线性渐变-->
+    <div id="d13" style="float:left;margin-left: 20px">
+        <div style="width: 400px;height: 200px;margin-top: 30px;text-align: center;line-height: 200px">
+            重复的线性渐变
+        </div>
+    </div>
+    <!--颜色结点均匀分布的径向渐变-->
+    <div id="d14" style="float:left;margin-left: 20px">
+        <div style="width: 400px;height: 200px;margin-top: 30px;text-align: center;line-height: 200px">
+            颜色结点均匀分布的径向渐变
+        </div>
+    </div>
+    <!--颜色结点不均匀分布的径向渐变-->
+    <div id="d15" style="float:left">
+        <div style="width: 400px;height: 200px;margin-top: 30px;text-align: center;line-height: 200px">
+            颜色结点不均匀分布的径向渐变
+        </div>
+    </div>
+    <!--形状为圆形的径向渐变-->
+    <div id="d16" style="float:left;margin-left: 20px">
+        <div style="width: 400px;height: 200px;margin-top: 30px;text-align: center;line-height: 200px">
+            形状为圆形的径向渐变
+        </div>
+    </div>
+    <!--重复的径向渐变-->
+    <div id="d17" style="float:left;margin-left: 20px">
+        <div style="width: 400px;height: 200px;margin-top: 30px;text-align: center;line-height: 200px">
+            重复的径向渐变
+        </div>
+    </div>
+    <!--文本阴影-->
+    <div id="d18" style="clear: both">
+        <div>
+            文本阴影
+        </div>
+    </div>
+    <!--盒子阴影-->
+    <div id="d19">
+        <div>
+            盒子阴影
+        </div>
+    </div>
+    <!--利用::after伪元素添加阴影效果-->
+    <div id="d20" style="margin-top: 30px;margin-bottom: 30px;width: 500px;height: 300px;padding: 10px">
+        <img style="width: 100%;height: 100%;border: 1px inset #8A4419;" src="../images/fw658.jpg">
+    </div>
+    <!--文字卡片效果-->
+    <div id="d21" style="margin-top: 30px;margin-bottom: 30px;width: 200px;float: left">
+        <div style="background: #4CAF50;height: 200px;font-size: 30px;color: white;text-align: center;line-height: 200px">
+            <p>1</p>
+        </div>
+        <div style="width: 200px;height: 60px;text-align: center;line-height: 60px">
+            <p>January 1, 2016</p>
+        </div>
+    </div>
+    <!--图片卡片效果-->
+    <div id="d22" style="margin-top: 30px;margin-bottom: 30px;width: 200px;float: left;margin-left: 30px">
+        <div style="background: #4CAF50;height: 200px;font-size: 30px;color: white;text-align: center;line-height: 200px">
+            <img style="height: 200px;width: 200px" src="../images/fw658.jpg">
+        </div>
+        <div style="width: 200px;height: 60px;text-align: center;line-height: 60px">
+            <p>January 1, 2016</p>
+        </div>
+    </div>
+    <!--CSS3字体-->
+    <div id="d23" style="margin-top: 30px;clear: both;text-overflow: ellipsis;overflow: hidden">
+        豫章故郡， 洪都新府。 星分翼轸， 地接衡庐。 襟三江而带五湖， 控蛮荆而引瓯越。 物华天宝， 龙光射牛斗之墟； 人杰地灵， 徐孺下陈蕃之榻。 雄州雾列， 俊采星驰。 台隍枕夷夏之交， 宾主尽东南之美。 都督阎公之雅望，
+        棨戟遥临； 宇文新州之懿范， 襜帷暂驻。 十旬休假， 胜友如云； 千里逢迎， 高朋满座。 腾蛟起凤， 孟学士之词宗； 紫电青霜， 王将军之武库。 家君作宰， 路出名区； 童子何知， 躬逢胜饯。
+        时维九月， 序属三秋。 潦水尽而寒潭清， 烟光凝而暮山紫。 俨骖騑于上路， 访风景于崇阿； 临帝子之长洲， 得天人之旧馆。 层峦耸翠， 上出重霄； 飞阁流丹， 下临无地。 鹤汀凫渚， 穷岛屿之萦回； 桂殿兰宫，
+        即冈峦之体势。
+        披绣闼， 俯雕甍， 山原旷其盈视， 川泽纡其骇瞩。 闾阎扑地， 钟鸣鼎食之家； 舸舰迷津， 青雀黄龙之舳。 云销雨霁， 彩彻区明。 落霞与孤鹜齐飞， 秋水共长天一色。 渔舟唱晚， 响穷彭蠡之滨； 雁阵惊寒， 声断衡阳之浦。
+        遥襟甫畅， 逸兴遄飞。 爽籁发而清风生， 纤歌凝而白云遏。 睢园绿竹， 气凌彭泽之樽； 邺水朱华， 光照临川之笔。 四美具， 二难并。 穷睇眄于中天， 极娱游于暇日。 天高地迥， 觉宇宙之无穷； 兴尽悲来， 识盈虚之有数。
+        望长安于日下， 目吴会于云间。 地势极而南溟深， 天柱高而北辰远。 关山难越， 谁悲失路之人？ 萍水相逢， 尽是他乡之客。 怀帝阍而不见， 奉宣室以何年？
+        嗟乎！ 时运不齐， 命途多舛。 冯唐易老， 李广难封。 屈贾谊于长沙， 非无圣主； 窜梁鸿于海曲， 岂乏明时？ 所赖君子见机， 达人知命。 老当益壮， 宁移白首之心？ 穷且益坚， 不坠青云之志。 酌贪泉而觉爽，
+        处涸辙以犹欢。 北海虽赊， 扶摇可接； 东隅已逝， 桑榆非晚。 孟尝高洁， 空余报国之情； 阮籍猖狂， 岂效穷途之哭！
+        勃， 三尺微命， 一介书生。 无路请缨， 等终军之弱冠； 有怀投笔， 慕宗悫之长风。 舍簪笏于百龄， 奉晨昏于万里。 非谢家之宝树， 接孟氏之芳邻。 他日趋庭， 叨陪鲤对； 今兹捧袂， 喜托龙门。 杨意不逢， 抚凌云而自惜；
+        钟期既遇， 奏流水以何惭？
+        呜乎！ 胜地不常， 盛筵难再； 兰亭已矣， 梓泽丘墟。 临别赠言， 幸承恩于伟饯； 登高作赋， 是所望于群公。 敢竭鄙怀， 恭疏短引； 一言均赋， 四韵俱成。 请洒潘江， 各倾陆海云尔：
+        滕王高阁临江渚， 佩玉鸣鸾罢歌舞。
+        画栋朝飞南浦云， 珠帘暮卷西山雨。
+        闲云潭影日悠悠， 物换星移几度秋。
+        阁中帝子今何在？ 槛外长江空自流。
+    </div>
+</div>
+</body>
+</html>

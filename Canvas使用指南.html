@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Canvas使用指南</title>
+
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,minimal-ui">
+    <meta name="format-detection" content="telephone=no">
+
+    <style type="text/css">
+        #cvs {
+            background-color: #E6E6FA;
+            height: 200px;
+            margin: 10px;
+        }
+
+        #cvs2 {
+            background-color: #E6E6FA;
+            height: 200px;
+            margin: 10px;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+        //矩形
+        function draw1(id) {
+            var canvas = document.getElementById(id);
+            if (canvas != null) {
+                var context = canvas.getContext('2d');
+                //实践表明在不设施fillStyle下的默认fillStyle=black
+                context.fillRect(0, 0, 100, 100);
+                //实践表明在不设施strokeStyle下的默认strokeStyle=black
+                context.strokeRect(120, 0, 100, 100);
+
+                //设置纯色
+                context.fillStyle = "red";
+                context.strokeStyle = "blue";
+                context.fillRect(0, 120, 100, 100);
+                context.strokeRect(120, 120, 100, 100);
+
+                //设置透明度实践证明透明度值>0,<1值越低，越透明，值>=1时为纯色，值<=0时为完全透明
+                context.fillStyle = "rgba(255,0,0,0.2)";
+                context.strokeStyle = "rgba(255,0,0,0.2)";
+                context.fillRect(240, 0, 100, 100);
+                context.strokeRect(240, 120, 100, 100);
+                context.clearRect(30, 30, 30, 30);
+            }
+        }
+
+        //圆形
+        function draw2(id) {
+            var canvas = document.getElementById(id);
+            if (canvas != null) {
+                var context = canvas.getContext('2d');
+                context.beginPath();
+                context.arc(150, 80, 50, 0, Math.PI * 2, true);
+                //不关闭路径路径会一直保留下去，当然也可以利用这个特点做出意想不到的效果
+                context.closePath();
+                context.fillStyle = 'rgba(0,255,0,0.25)';
+                context.strokeStyle = 'rgba(255,0,0,0.25)'
+                context.fill();
+                context.stroke();
+            }
+        }
+
+        //圆缺
+        function draw3(id) {
+            var canvas = document.getElementById(id);
+            if (canvas != null) {
+                var context = canvas.getContext('2d');
+                var n = 0;
+
+                //左侧1/4圆弧
+                context.beginPath();
+                context.arc(50, 50, 50, 0, Math.PI / 2, false);
+                context.fillStyle = 'rgba(0,255,0,0.25)';
+                context.fill();
+                context.strokeStyle = 'rgba(255,0,0,0.25)'
+                context.closePath();
+                context.stroke();
+
+                //右侧1/4圆弧
+                context.beginPath();
+                context.arc(150, 50, 50, 0, Math.PI / 2, false);
+                context.fillStyle = 'rgba(0,0,255,0.25)';
+                context.fill();
+                context.strokeStyle = 'rgba(255,0,0,0.25)';
+                context.closePath();
+                context.stroke();
+            }
+        }
+
+        //线段
+        function draw4(id) {
+            var canvas = document.getElementById(id);
+            if (canvas != null) {
+                var context = canvas.getContext('2d');
+                context.strokeStyle = "rgb(250,0,0)";
+                context.fillStyle = "rgb(250,0,0)"
+                //实验证明第一次lineTo的时候和moveTo功能一样
+                context.lineTo(150, 20);
+                //之后的lineTo会以上次lineTo的节点为开始
+                context.lineTo(80, 130);
+                context.lineTo(220, 130);
+                context.lineTo(150, 20);
+                //moveTo重置起始位置
+                context.moveTo(200, 50);
+                context.lineTo(100, 50);
+                context.stroke();
+            }
+        }
+
+        //多边菱形
+        function draw5(id) {
+            var canvas = document.getElementById(id);
+            if (canvas != null) {
+                var context = canvas.getContext('2d');
+                context.fillStyle = "#EEEEFF";
+                context.fillRect(0, 0, 300, 150);//画背景
+                var n = 0;
+                var dx = 150;
+                var dy = 75;
+                var s = 70;
+                context.beginPath();
+                context.fillStyle = 'rgb(100,255,100)';
+                context.strokeStyle = 'rgb(0,0,100)';
+                var x = Math.sin(0);
+                var y = Math.cos(0);
+                var dig = Math.PI / 15 * 11;
+                for (var i = 0; i < 30; i++) {
+                    var x = Math.sin(i * dig);
+                    var y = Math.cos(i * dig);
+                    context.lineTo(dx + x * s, dy + y * s);
+                }
+                context.closePath();
+                context.fill();
+                context.stroke();
+            }
+        }
+
+        //贝塞尔
+        function draw6(id) {
+            var canvas = document.getElementById(id);
+            if (canvas != null) {
+                var context = canvas.getContext('2d');
+                context.moveTo(10, 10);
+                context.bezierCurveTo(10, 10, 80, 0, 100, 60);
+                context.stroke();
+                context.quadraticCurveTo(120, 150, 220, 140);
+                context.stroke();
+            }
+        }
+
+        //复杂贝塞尔
+        function draw7(id) {
+            var canvas = document.getElementById(id);
+            if (canvas != null) {
+                var context = canvas.getContext('2d');
+                context.fillStyle = "#EEEFF";
+                context.fillRect(0, 0, canvas.width, canvas.height);//背景
+                var dx = canvas.width / 2;
+                var dy = canvas.height / 2;
+                var s = dy - 10;
+                context.beginPath();
+                context.globalCompositeOperation = 'and';
+                context.fillStyle = 'rgb(100,255,100)';
+                var x = Math.sin(0);
+                var y = Math.cos(0);
+                var dig = Math.PI / 15 * 11;
+                context.moveTo(dx, dy);
+                for (var i = 0; i < 30; i++) {
+                    var x = Math.sin(i * dig);
+                    var y = Math.cos(i * dig);
+                    context.bezierCurveTo(dx + x * s, dy + y * s - 80, dx + x * s + 80, dy + y * s, dx + x * s, dy + y * s);
+                }
+                context.closePath();
+                context.fill();
+                context.stroke();
+            }
+        }
+
+        //线性渐变
+        function draw8(id) {
+            var canvas = document.getElementById(id);
+            if (canvas != null) {
+                var context = canvas.getContext('2d');
+                var gl = context.createLinearGradient(0, 0, canvas.width, canvas.height);
+
+                gl.addColorStop(0, '#FF0000'); //红
+                gl.addColorStop(0.5, 'rgb(0,255,0)');//绿
+                gl.addColorStop(1, 'rgb(0,0,255)'); //蓝
+
+                context.lineTo(0, 0);
+                context.lineTo(canvas.width, canvas.height);
+                //可以把lg对象理解成GDI中线性brush
+                context.strokeStyle = gl;
+                //再用这个brush来画线段
+                context.stroke();
+            }
+        }
+
+        //径向渐变
+        function draw9(id) {
+            var canvas = document.getElementById(id);
+            if (canvas != null) {
+                var context = canvas.getContext('2d');
+                var dx = canvas.width / 2;
+                var dy = canvas.height / 2;
+                var r = dy - 20;
+                var gl = context.createRadialGradient(dx, dy, 10, dx, dy, r);
+                gl.addColorStop(0, '#FF0000');
+                gl.addColorStop(1, '#550000');
+                context.fillStyle = gl;
+                context.arc(dx, dy, r, 0, Math.PI * 2, true);
+                context.fill();
+            }
+        }
+
+        //图形变形
+        function draw10(id) {
+            var canvas = document.getElementById(id);
+            if (canvas != null) {
+                var context = canvas.getContext('2d');
+                context.save();//保存了当前context的状态
+                context.fillStyle = '#F00';
+                context.fillRect(10, 10, 50, 50);
+
+                context.fillStyle = 'rgba(255,0,0,0.5)';
+                context.translate(80, 0);
+                context.scale(0.5, 0.5);
+                context.rotate(Math.PI / 4);
+                context.fillRect(50, 5, 50, 50);
+
+                context.restore(); //恢复到刚刚保存的状态,保存恢复只能使用一次
+                context.save(); //保存了当前context的状态
+                context.fillStyle = "rgba(255,0,0,0.2)";
+                //平移 旋转 缩放 1 3 2
+                context.translate(200, 50);
+                context.rotate(Math.PI / 4);
+                context.scale(0.5, 0.5);
+                context.fillRect(0, 0, 100, 100);
+            }
+        }
+
+        //图形组合
+        function draw11(id) {
+            var canvas = document.getElementById(id);
+            if (canvas != null) {
+                var context = canvas.getContext('2d');
+                var oprtns = ["source-over",
+                    "destination-over",
+                    "source-in",
+                    "destination-in",
+                    "source-out",
+                    "destination-out",
+                    "source-atop",
+                    "destination-atop",
+                    "lighter",
+                    "xor",
+                    "copy"];
+                var i = 0;//组合效果编号
+
+                //结合setinterval动态显示组合
+                var interal = setInterval(function () {
+                    if (i == 10) {
+                        i = 0;
+                    } else {
+                        i++;
+                    }
+                    //蓝色矩形
+                    context.fillStyle = "blue";
+                    context.fillRect(10, 10, 60, 60);
+                    //设置组合方式
+                    context.globalCompositeOperation = oprtns[i];
+                    //设置新图形（红色圆形）
+                    context.fillStyle = "red";
+                    context.arc(60, 60, 30, 0, Math.PI * 2, false);
+                    context.fill();
+                }, 1000);
+
+                //                clearInterval(interal);
+            }
+        }
+
+        //给图形绘制阴影
+        function draw12(id) {
+            var canvas = document.getElementById(id);
+            if (canvas != null) {
+                var context = canvas.getContext('2d');
+                context.shadowOffsetX = 10;
+                context.shadowOffsetY = 10;
+                context.shadowColor = 'rgba(100,100,100,0.5)';
+                context.shadowBlur = 1.5;
+                context.fillStyle = 'rgba(255,0,0,0.5)';
+                context.fillRect(50, 30, 150, 80);
+            }
+        }
+
+        //绘制多个带阴影的五角星
+        function draw13(id) {
+            var canvas = document.getElementById(id);
+            if (canvas != null) {
+                var context = canvas.getContext('2d');
+                context.fillStyle = "#EEEEFF";
+                context.fillRect(0, 0, canvas.width, canvas.height);
+
+                context.shadowOffsetX = 10;
+                context.shadowOffsetY = 10;
+                context.shadowColor = 'rgba(100,100,100,0.5)';
+                context.shadowBlur = 5;
+
+                //图形绘制
+                create5Star(context);
+                context.fill();
+                context.translate(70, 0);
+                create5Star(context);
+                context.fill();
+                context.translate(70, 0);
+                create5Star(context);
+                context.fill();
+
+                //五角星
+                function create5Star(context) {
+                    var dx = 50;
+                    var dy = 50;
+                    var s = 30;
+                    //创建路径
+                    context.beginPath();
+                    context.fillStyle = 'rgba(255,0,0,0.5)';
+                    var dig = Math.PI / 5 * 4;
+                    for (var i = 0; i < 5; i++) {
+                        var x = Math.sin(i * dig);
+                        var y = Math.cos(i * dig);
+                        context.lineTo(dx + x * s, dy + y * s);
+
+                    }
+                    context.closePath();
+                }
+            }
+        }
+
+        //绘制图像(网络图片显示变形问题)
+        function draw14(id) {
+            var canvas = document.getElementById(id);
+            if (canvas != null) {
+                var img = new Image();
+                img.src = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1487673186738&di=ce1f79659082c5f0f8909c05ee9fc0df&imgtype=0&src=http%3A%2F%2Fpic35.nipic.com%2F20131125%2F6704106_025920658000_2.jpg";
+                img.onload = function () {
+                    showImg(canvas, img);
+                }
+            }
+        }
+
+        //图像平铺
+        function draw15(id) {
+            var canvas = document.getElementById(id);
+            if (canvas != null) {
+                var context = canvas.getContext('2d');
+                var img = new Image();
+                var type = ["no-repeat", "repeat-x", "repeat-y", "repeat"];
+                var i = 0;
+                img.src = "image/1.png";
+                img.onload = function () {
+                    var interval = setInterval(function () {
+                        //每次转换平铺类型清空
+                        context.clearRect(0, 0, canvas.width, canvas.height);
+                        if (i >= 4) {
+                            i = 0;
+                        }
+                        context.fillStyle = context.createPattern(img, type[i]);
+                        context.fillRect(0, 0, canvas.width, canvas.height);
+                        i++;
+                    }, 1000);
+                };
+            }
+        }
+
+        //图像裁剪
+        function draw16(id) {
+            var canvas = document.getElementById(id);
+            if (canvas != null) {
+                var context = canvas.getContext('2d');
+                context.fillStyle = "black";
+                context.fillRect(0, 0, canvas.width, canvas.height);
+                var img = new Image();
+                img.src = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1487670858614&di=71f5704ad58719c3d18e3ccb43b78e2b&imgtype=0&src=http%3A%2F%2Fpic35.nipic.com%2F20131121%2F2531170_145358633000_2.jpg";
+                img.onload = function () {
+                    //圆形裁剪区
+                    createCircleClip()
+                    //五角星裁剪区域
+                    //create5StarClip();
+                    context.drawImage(img, 0, 0);
+                };
+
+                //创建圆形裁剪区域
+                function createCircleClip() {
+                    context.beginPath();
+                    context.arc(canvas.width / 2, canvas.height / 2, 50, 0, Math.PI * 2, true);
+                    context.closePath();
+                    context.clip();
+                }
+
+                //创建五角星裁剪区域
+                function create5StarClip() {
+                    var dx = canvas.width / 2;
+                    var dy = canvas.height / 2;
+                    var s = 50;
+                    context.beginPath();
+                    var x = Math.sin(0);
+                    var y = Math.cos(0);
+                    var dig = Math.PI / 5 * 4;
+                    for (var i = 0; i < 5; i++) {
+                        x = Math.sin(i * dig);
+                        y = Math.cos(i * dig);
+                        context.lineTo(dx + x * s, dy + y * s);
+                    }
+                    context.closePath();
+                    context.clip();
+                }
+            }
+        }
+
+        //像素处理
+        function draw17(id) {
+            var canvas = document.getElementById(id);
+            if (canvas != null) {
+                var context = canvas.getContext('2d');
+                var img = new Image();
+                img.src = "images/bg.jpg";
+                img.onload = function () {
+                    showImg(canvas, img);
+
+                    //实验证明imagedata取的是canvas所在范围画的图形，不止是图片
+                    //不会取该区域内是空白的canvas的像素
+                    //这里涉及到Ajax的异域访问问题
+                    var imagedata = context.getImageData(0, 0, canvas.width, canvas.height);
+
+                    //修改imagedata
+                    for (var i = 0, n = imagedata.data.length; i < n; i += 4) {
+                        imagedata.data[i] = 255 - imagedata.data[i]; //red;
+                        imagedata.data[i + 1] = 255 - imagedata.data[i + 1]; //green
+                        imagedata.data[i + 2] = 255 - imagedata.data[i + 2]; //blue
+                        //imagedata.data[i + 3] = 255 - imagedata.data[i + 3]; //a
+                    }
+                    //像素修改完成之后将其画到cvs2上
+                    var context2 = document.getElementById('cvs2').getContext('2d');
+                    context2.putImageData(imagedata, 0, 0);
+                };
+            }
+        }
+
+        //绘制文字
+        function draw18(id) {
+            var canvas = document.getElementById(id);
+            if (canvas != null) {
+                var context = canvas.getContext('2d');
+                context.fillStyle = "#00f";
+                context.font = "italic 30px sans-serif";
+                context.textBaseline = 'top';
+                //填充字符串
+                var txt = "fill示例文字";
+                context.fillText(txt, 0, 0);
+
+                var length = context.measureText(txt);
+                context.fillText("长" + length.width + "px", 0, 40);
+
+                context.font = "bolid 30px sans-serif";
+                txt = "stroke示例文字";
+
+                length = context.measureText(txt);
+                context.strokeText(txt, 0, 80);
+                context.fillText("长" + length.width + "px", 0, 110);
+            }
+        }
+
+        //保存和恢复状态
+        function draw19(id) {
+            var canvas = document.getElementById(id);
+            if (canvas != null) {
+                var context = canvas.getContext('2d');
+                context.fillStyle = "red";
+                context.save(); //保存了当前context的状态
+                context.fillStyle = "black";
+                context.fillRect(0, 0, 50, 50);
+                context.restore();//恢复到刚刚保存的状态
+                context.fillRect(0, 70, 50, 50);
+            }
+        }
+
+        //保存文件
+        function draw20(id) {
+            var canvas = document.getElementById(id);
+            if (canvas != null) {
+                var context = canvas.getContext('2d');
+                context.fillStyle = "rgb(0,0,225)";
+                context.fillRect(0, 0, canvas.width, canvas.height);
+                context.fillStyle = "rgb(255,255,0)";
+                context.fillRect(10, 20, 50, 50);
+                //把图像保存到新的窗口
+                var w = window.open(canvas.toDataURL("image/jpeg"), "smallwin", "width=400,height=350");
+            }
+        }
+
+        //结合setInterval制作动画
+        function draw20(id) {
+            var canvas = document.getElementById(id);
+            if (canvas != null) {
+                var context = canvas.getContext('2d');
+                var interal = setInterval(function () {
+                    move(context);
+                }, 1);
+            }
+
+            var x = 100;//矩形开始坐标
+            var y = 100;//矩形结束坐标
+            var mx = 0;//0右1左
+            var my = 0; //0下1上
+            var ml = 1;//每次移动长度
+            var w = 20;//矩形宽度
+            var h = 20;//矩形高度
+            var cw = canvas.width;//canvas宽度
+            var ch = canvas.height; //canvas高度
+
+            function move(context) {
+                context.clearRect(0, 0, cw, ch);
+                context.fillStyle = "#EEEEFF";
+                context.fillRect(0, 0, cw, ch);
+                context.fillStyle = "red";
+                context.fillRect(x, y, w, h);
+                if (mx == 0) {
+                    x = x + ml;
+                    if (x >= cw - w) {
+                        mx = 1;
+                    }
+                }
+                else {
+                    x = x - ml;
+                    if (x <= 0) {
+                        mx = 0;
+                    }
+                }
+                if (my == 0) {
+                    y = y + ml;
+                    if (y >= ch - h) {
+                        my = 1;
+                    }
+                }
+                else {
+                    y = y - ml;
+                    if (y <= 0) {
+                        my = 0;
+                    }
+                }
+            }
+        }
+
+        window.onload = function () {
+            draw14('cvs');
+        };
+
+        //显示图片
+        function showImg(canvas, img) {
+            if (canvas != null) {
+                var context = canvas.getContext('2d');
+                var vwidth = canvas.width;
+                var vheight = canvas.height;
+                var dwidth = img.width;
+                var dheight = img.height;
+                var scale = 1;
+                var dx = 0;
+                var dy = 0;
+                if (dwidth * vheight > vwidth * dheight) {
+                    scale = vheight / dheight;
+                    dx = Math.abs((vwidth / scale - dwidth) * 0.5);
+                } else {
+                    scale = vwidth / dwidth;
+                    dy = Math.abs((vheight / scale - dheight) * 0.5);
+                }
+                context.drawImage(img, dx, dy, vwidth / scale, vheight / scale, 0, 0, vwidth, vheight);
+            }
+        }
+    </script>
+
+</head>
+
+<body>
+<div class="layout">
+    <canvas id="cvs"></canvas>
+    <canvas id="cvs2"></canvas>
+</div>
+</body>
+</html>
