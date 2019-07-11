@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>JavaScript保存登陆状态</title>
+
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,minimal-ui">
+    <meta name="format-detection" content="telephone=no">
+
+    <style type="text/css">
+        #cvs {
+            background-color: #E6E6FA;
+            height: 200px;
+            margin: 10px;
+        }
+
+        #cvs2 {
+            background-color: #E6E6FA;
+            height: 200px;
+            margin: 10px;
+        }
+    </style>
+
+    <script src="jquery-min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            alert("1");
+
+            var nameObj = $("#userName");
+            var passObj = $("#password");
+            var saveBtn = $("#saveCookie");
+            var submitBtn = $("#submit");
+
+            //分析cookie值，显示上次的登陆信息
+            var userNameValue = getCookieValue("userName");
+            nameObj.html(userNameValue);
+
+            var passwordValue = getCookieValue("password");
+            passObj.html(passwordValue);
+
+            //写入点击事件
+            submitBtn.click(function () {
+                alert("2");
+
+                var userNameValue = nameObj.val();//取前台用户名的值
+                var passwordValue = passObj.val(); //取前台密码的值
+
+                //服务器验证（模拟） 这里是对用户的一个验证．在项目中，你读取数据库的代码写在这
+                var isAdmin = userNameValue == "tch" && passwordValue == "123";
+                var isUserA = userNameValue == "java" && passwordValue == "123";
+                var isMatched = isAdmin || isUserA;
+
+                //如果存在这个用户,就把用户名和密码存进cookie
+                if (isMatched) {
+                    if (saveBtn.checked) {
+                        //setCookie("userName", userNameValue, 10, "/");
+                        //setCookie("password", passwordValue, 10, "/");
+                    }
+                    alert("登陆成功,欢迎你," + userNameValue + "!");
+                    self.location.replace("https://www.baidu.com/");
+                } else {
+                    alert("用户名或密码错误，请重新输入！");
+                }
+            });
+        });
+
+        // hours为空字符串时,cookie的生存期至浏览器会话结束。
+        // hours为数字0时,建立的是一个失效的cookie,这个cookie会覆盖已经建立过的同名、同path的cookie（如果这个cookie存在）。
+        function setCookie(name, value, days, path) {
+            var name = escape(name);
+            var value = escape(value);
+            var expires = new Date();
+            expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+            path = path == "" ? "" : ";path=" + path;
+            _expires = (typeof hours) == "string" ? "" : ";expires=" + expires.toUTCString();
+            document.cookie = name + "=" + value + _expires + path;
+        }
+
+        //获取cookie值
+        function getCookieValue(name) {
+            var name = escape(name);
+            //读cookie属性，这将返回文档的所有cookie
+            var allcookies = document.cookie;
+
+            //查找名为name的cookie的开始位置
+            name += "=";
+            var pos = allcookies.indexOf(name);
+            //如果找到了具有该名字的cookie，那么提取并使用它的值
+            if (pos != -1) {                                             //如果pos值为-1则说明搜索"version="失败
+                var start = pos + name.length;                  //cookie值开始的位置
+                var end = allcookies.indexOf(";", start);        //从cookie值开始的位置起搜索第一个";"的位置,即cookie值结尾的位置
+                if (end == -1) end = allcookies.length;        //如果end值为-1说明cookie列表里只有一个cookie
+                var value = allcookies.substring(start, end);  //提取cookie的值
+                return unescape(value);                           //对它解码
+            }
+            else return "";                                             //搜索失败，返回空字符串
+        }
+
+        //删除cookie
+        /*function deleteCookie(name, path) {
+         var name = escape(name);
+         var expires = new Date(0);
+         path = path == "" ? "" : ";path=" + path;
+         document.cookie = name + "=" + ";expires=" + expires.toUTCString() + path;
+         }*/
+
+    </script>
+
+</head>
+
+<body>
+<form action="">
+    <p>
+        <span>UserName:</span>
+        <input id="userName" type="text" value=""/></p>
+    <p>
+        <span>Password:</span>
+        <input id="password" type="password" value=""/></p>
+    <p>
+        <span style="font-size:12px; color:blue;">记住密码10天</span>
+        <input id="saveCookie" type="checkbox" value=""/></p>
+    <p>
+        <input id="submit" type="button" value="GO"/>
+    </p>
+</form>
+</body>
+</html>
