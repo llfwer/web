@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>对象学习</title>
+
+    <meta http-equiv="Content-Type" Content="text/html">
+
+    <meta name="author" content="rowe"/>
+    <meta name="keywords" content="对象，学习"/>
+    <meta name="description" content="对象学习"/>
+
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no,minimal-ui">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #container {
+            list-style: none;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+        function test1() {
+            var car = "porsche";
+            document.getElementById("container").innerHTML = car;
+        }
+
+        function test2() {
+            var car = {type: "porsche", model: "911", color: "white"};
+            document.getElementById("container").innerHTML = car.type + " " + car.model + " " + car.color;
+        }
+
+        function test3() {
+            var car = {
+                name: "porsche",
+                model: "911",
+                getName: function () {
+                    return this.name;
+                }
+            };
+            console.log(car.getName);
+            document.getElementById("container").innerHTML = car.getName();
+        }
+
+        window.onload = function () {
+            test3();
+        }
+
+    </script>
+</head>
+
+<body>
+<div id="container">
+
+</div>
+</body>
+</html>
