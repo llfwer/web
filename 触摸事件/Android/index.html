@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>UPHybrid</title>
+
+        <script src="uphybrid.js"></script>
+        <script>
+            function onload() {
+                upNativeComm.addEventListener("Test", function(opt) {
+                    console.log("Event: " + JSON.stringify(opt));
+                });
+
+                upNativeComm.addEventListener("WebView", function(opt) {
+                    if(opt.action === "visible") {
+                        console.log("Web page is visible");
+                    } else if(opt.action === "invisible") {
+                        console.log("Web page is invisible");
+                    } else if(opt.action == "menu") {
+                        console.log("Web menu click " + opt.id);
+                    }
+                });
+
+                upNativeComm.exec("WebView.setTitle", {title:"标题From Web", subtitle: "XxXxXxXxX"});
+                upNativeComm.exec("WebView.setMenu", {
+                    items:[
+                        {
+                            id: "1",
+                            title: "菜单1",
+                            icon: "https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1496231333&di=39e83b5de9bf23e3a513a270b493b9c5&src=http://www.51ppt.com.cn/Article/Uploadphotos_0708/200604/200641474815848.png"
+                        },
+                        {
+                            id: "2",
+                            title: "菜单2",
+                            icon: "https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1496231368&di=e3e61c859f041b23b0af5c9e9e5b0685&src=http://www.51ppt.com.cn/Article/Uploadphotos_0708/200604/20064147279737.png"
+                        },
+                        {
+                            id: "3",
+                            title: "菜单3",
+                            icon: "https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1496231368&di=e3e61c859f041b23b0af5c9e9e5b0685&src=http://www.51ppt.com.cn/Article/Uploadphotos_0708/200604/20064147279737.png"
+                        }
+
+                    ]
+                });
+
+                console.log("UserAgent: " + navigator.userAgent);
+                console.log("AppName: " + navigator.appName);
+                console.log("AppCodeName: " + navigator.appCodeName);
+                console.log("AppVersion: " + navigator.appVersion);
+                console.log("AppMinorVersion: " + navigator.appMinorVersion);
+            }
+
+            function on_btn_click1() {
+                var param = {
+                    a: 10,
+                    b: 123.456,
+                    c: 'abcdefghijklmnopqrstuvwxyz',
+                    d: {
+                        d1: 0,
+                        d2: 1,
+                        d3: 'a'
+                    },
+                    callback: function(code, opt, optObj) {
+                        console.log("Code: " + code);
+                        console.log("Result: " + opt);
+                        console.log("Result 2: " + optObj.b);
+                    }
+                };
+
+                upNativeComm.exec("Test.action1", param);
+            }
+
+            function on_btn_click2() {
+                var param = {
+                    a: 10,
+                    b: 123.456,
+                    c: 'abcdefghijklmnopqrstuvwxyz',
+                    d: {
+                        d1: 0,
+                        d2: 1,
+                        d3: 'a'
+                    },
+                    callback: function(code, opt) {
+                        console.log("Code: " + code);
+                        console.log("Result: " + opt);
+                    }
+                };
+
+                upNativeComm.exec("Test.action2", param);
+            }
+
+[{label:"选项1",value:"value1"},{label:"选项2",value:"value2"}]
+            function on_btn_click3() {
+                var param = {
+                    options: [{
+                        label: '选项1',
+                        value: '1'
+                        },
+                        {
+                        label: '选项2',
+                        value: '2'
+                        }
+                    ],
+                    callback: function(code, opt) {
+                        console.log("Code: " + code);
+                        console.log("Result: " + opt);
+                    }
+                };
+
+                upNativeComm.exec("Widget.pick", param);
+            }
+
+            function on_btn_click4() {
+                var param = {
+                    content: 'toast1111'
+                };
+
+                upNativeComm.exec("Widget.showToast", param);
+            }
+        </script>
+    </head>
+
+    <body onload="onload()">
+        <button type="button" onclick="on_btn_click1()">!!!Click Me Action 1!!!</button><br /><br /><br />
+        <button type="button" onclick="on_btn_click2()">!!!Click Me Action 2!!!</button><br /><br /><br />
+        <button type="button" onclick="on_btn_click3()">!!!pick!!!</button><br /><br /><br />
+        <button type="button" onclick="on_btn_click4()">!!!showToast!!!</button><br /><br /><br />
+        <a href="tel:123456789">!!!Call me!!!</a><br /><br /><br />
+        <a href="mailto:123456789@upchina.com">!!!Mail me!!!</a><br /><br /><br />
+        <a href="upchina://123456789">!!!UPChina me!!!</a><br /><br /><br />
+        <a href="https://sr.upchina.com">!!!SmartRobot me!!!</a><br /><br /><br />
+    </body>
+</html>
