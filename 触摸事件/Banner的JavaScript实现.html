@@ -2,13 +2,13 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>移动端Banner页面</title>
+    <title>Banner的JavaScript实现</title>
 
     <meta http-equiv="Content-Type" Content="text/html">
 
     <meta name="author" content="rowe"/>
-    <meta name="keywords" content="移动端，Banner"/>
-    <meta name="description" content="移动端Banner页面"/>
+    <meta name="keywords" content="JavaScript，Banner"/>
+    <meta name="description" content="Banner的JavaScript实现"/>
 
     <meta name="viewport"
           content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no,minimal-ui">
@@ -45,6 +45,29 @@
             height: 100%;
         }
 
+        #button {
+            position: absolute;
+            width: 100%;
+            height: 40px;
+            left: 0;
+            right: 0;
+            margin-top: 100px;
+        }
+
+        #button img:first-child {
+            float: left;
+            width: 40px;
+            height: 100%;
+            margin-left: 5px;
+        }
+
+        #button img:last-child {
+            float: right;
+            width: 40px;
+            height: 100%;
+            margin-right: 5px;
+        }
+
         .index {
             display: inline-block;
             text-align: center;
@@ -71,16 +94,25 @@
 
     <script type="text/javascript">
 
+        var mBanner;
+        var mCount;
+        var mIndex = 0;
+        var mWidth;
+
         window.onload = function () {
-            var banner = document.getElementById('banner');
+            mBanner = document.getElementById('banner');
+            var imageArr = mBanner.getElementsByTagName('img');
+            mCount = imageArr.length;
+            mWidth = imageArr[0].offsetWidth;
+        };
 
-            var imageList = banner.getElementsByTagName('img');
-            var width = 0;
-            for (var i = 0; i < imageList.length; i++) {
-                width += imageList[i].offsetWidth;
-            }
+        function slide(index) {
+            var target = mIndex + index;
+            if (target < 0 || target >= mCount) return;
 
-            banner.style.width = width + 'px';
+            mIndex = target;
+
+            mBanner.scrollLeft = target * mWidth;
         }
 
     </script>
@@ -96,6 +128,10 @@
         <li><img src="http://imglf1.ph.126.net/79GPsjhwiIj8e-0nP5MsEQ==/6619295294699949331.jpg"></li>
         <li><img src="http://imglf1.ph.126.net/40-jqH_j6EoCWnZOixY2pA==/4798022453110310215.jpg"></li>
     </ul>
+    <div id="button">
+        <img onclick="slide(-1)" src="../image/left.png"/>
+        <img onclick="slide(1)" src="../image/right.png"/>
+    </div>
     <div style="text-align: center">
         <div class="index">
             <span class="choose">1</span>
