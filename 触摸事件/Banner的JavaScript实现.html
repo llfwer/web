@@ -191,6 +191,8 @@
         var timeId;
 
         function smoothScrollTo(index) {
+            console.log('Smooth scroll to : ' + index);
+
             if (index < 0 || index > mImgArr.length - 1) return;
 
             var target = mImgArr[index].offsetLeft - 5;
@@ -221,6 +223,8 @@
         }
 
         function releaseToBoundary() {
+            console.log('Release to Boundary.');
+
             var scroll = mBanner.scrollLeft;
 
             for (var i = 0; i < mImgArr.length; i++) {
@@ -251,6 +255,9 @@
         function end(event) {
             if (mIsBeingDragged) {
                 releaseToBoundary();
+            } else {
+                //容错
+                releaseToBoundary()
             }
 
             mStart.x = 0;
@@ -279,6 +286,7 @@
                 } else if (type == 'touchcancel') {
                     end(event)
                 }
+                console.log('Event type : ' + type);
             }
         };
 
