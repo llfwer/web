@@ -31,7 +31,8 @@
             white-space: nowrap; /*规定段落中的文本不进行换行*/
             overflow-x: scroll; /*水平方向，超出部分添加滚动机制*/
             float: left; /*一定要设置左侧浮动*/
-            overflow-y: hidden /*竖直方向，超出部分隐藏*/
+            overflow-y: hidden; /*竖直方向，超出部分隐藏*/
+            touch-action: none;
         }
 
         #banner li {
@@ -68,18 +69,18 @@
             margin-right: 5px;
         }
 
-        .index {
+        #index {
             display: inline-block;
             text-align: center;
             color: #000;
             margin: 10px 0 0 0;
         }
 
-        .index span {
+        #index span {
             margin: 0 5px;
         }
 
-        .index .choose {
+        #index .choose {
             color: red;
         }
 
@@ -94,26 +95,192 @@
 
     <script type="text/javascript">
 
+        function touchEnable() {
+            return (('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch);
+        }
+
         var mBanner;
-        var mCount;
+        var mImgArr;
         var mIndex = 0;
-        var mWidth;
+        var mIndexArr;
 
         window.onload = function () {
             mBanner = document.getElementById('banner');
-            var imageArr = mBanner.getElementsByTagName('img');
-            mCount = imageArr.length;
-            mWidth = imageArr[0].offsetWidth;
+            mImgArr = mBanner.getElementsByTagName('img');
+            var container = document.getElementById('index');
+            mIndexArr = container.getElementsByTagName('span');
+
+            if (touchEnable()) {
+                //第二个参数可以传一个对象，会调用该对象的handleEvent属性
+                mBanner.addEventListener('touchstart', object, false);
+            }
         };
 
-        function slide(index) {
-            var target = mIndex + index;
-            if (target < 0 || target >= mCount) return;
+        function slide(offset) {
+            var index = mIndex + offset;
+            if (index < 0 || index > mImgArr.length - 1) return;
 
-            mIndex = target;
+            mIndexArr[mIndex].className = '';
 
-            mBanner.scrollLeft = target * mWidth;
+            mIndex = index;
+
+            mIndexArr[mIndex].className = 'choose';
+
+            smoothScrollTo(mIndex);
         }
+
+        var mStart = {x: 0, y: 0, time: 0};
+        var mLast = {x: 0, y: 0};
+
+        var mIsBeingDragged = false;
+
+        function start(event) {
+            //touches数组对象获得屏幕上所有的touch，取第一个touch
+            var touch = event.targetTouches[0];
+
+            //取第一个touch的坐标值
+            mStart.x = touch.pageX;
+            mStart.y = touch.pageY;
+            mStart.time = +new Date;
+
+            mLast.x = touch.pageX;
+            mLast.y = touch.pageY;
+
+            mIsBeingDragged = false;
+
+            mBanner.addEventListener('touchmove', object, false);
+            mBanner.addEventListener('touchend', object, false);
+            mBanner.addEventListener('touchcancel', object, false);
+        }
+
+        function move(event) {
+            //当屏幕有多个touch或者页面被缩放过，就不执行move操作
+            if (event.targetTouches.length > 1 || event.scale && event.scale !== 1) return;
+
+            var touch = event.targetTouches[0];
+
+            var nowX = touch.pageX;
+            var nowY = touch.pageY;
+
+            var absX = Math.abs(nowX - mStart.x);
+            var absY = Math.abs(nowY - mStart.y);
+
+            if (!mIsBeingDragged && absX > absY && absX > 10) {
+                mIsBeingDragged = true;
+            }
+
+            if (mIsBeingDragged) {
+                //阻止触摸事件的默认行为，即阻止滚屏
+                if (event.cancelable) {
+                    event.preventDefault();
+                }
+
+                var deltaX = mLast.x - touch.pageX;
+
+                //console.log(deltaX);
+
+                mBanner.scrollLeft += deltaX;
+            }
+
+            //console.log(mBanner.scrollLeft);
+
+            mLast.x = nowX;
+            mLast.y = nowY;
+        }
+
+        var timeId;
+
+        function smoothScrollTo(index) {
+            if (index < 0 || index > mImgArr.length - 1) return;
+
+            var target = mImgArr[index].offsetLeft - 5;
+
+            var start = mBanner.scrollLeft;
+            var step = Math.abs(target - start) / 20;
+            var curr = start;
+
+            timeId = setInterval(function () {
+                if (start < target) {
+                    if (curr < target) {
+                        curr += step;
+                        mBanner.scrollLeft = curr;
+                    } else {
+                        mBanner.scrollLeft = target;
+                        clearInterval(timeId);
+                    }
+                } else {
+                    if (curr > target) {
+                        curr -= step;
+                        mBanner.scrollLeft = curr;
+                    } else {
+                        mBanner.scrollLeft = target;
+                        clearInterval(timeId);
+                    }
+                }
+            }, 10);
+        }
+
+        function releaseToBoundary() {
+            var scroll = mBanner.scrollLeft;
+
+            for (var i = 0; i < mImgArr.length; i++) {
+                var item = mImgArr[i];
+
+                var left = item.offsetLeft;
+                var width = item.offsetWidth;
+                var right = left + width;
+
+                if (scroll >= left && scroll < right) {
+                    mIndexArr[mIndex].className = '';
+
+                    if (right - scroll > width / 2) {//->
+                        mIndex = i;
+                    } else {//<-
+                        mIndex = i + 1;
+                    }
+
+                    mIndexArr[mIndex].className = 'choose';
+
+                    smoothScrollTo(mIndex);
+
+                    break
+                }
+            }
+        }
+
+        function end(event) {
+            if (mIsBeingDragged) {
+                releaseToBoundary();
+            }
+
+            mStart.x = 0;
+            mStart.y = 0;
+            mStart.time = 0;
+
+            mLast.x = 0;
+            mLast.y = 0;
+
+            mIsBeingDragged = false;
+
+            mBanner.removeEventListener('touchmove', object, false);
+            mBanner.removeEventListener('touchend', object, false);
+            mBanner.removeEventListener('touchcancel', object, false);
+        }
+
+        var object = {
+            handleEvent: function (event) {
+                var type = event.type;
+                if (type == 'touchstart') {
+                    start(event)
+                } else if (type == 'touchmove') {
+                    move(event);
+                } else if (type == 'touchend') {
+                    end(event)
+                } else if (type == 'touchcancel') {
+                    end(event)
+                }
+            }
+        };
 
     </script>
 
@@ -133,7 +300,7 @@
         <img onclick="slide(1)" src="../image/right.png"/>
     </div>
     <div style="text-align: center">
-        <div class="index">
+        <div id="index">
             <span class="choose">1</span>
             <span>2</span>
             <span>3</span>
