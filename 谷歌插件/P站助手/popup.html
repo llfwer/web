@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>popup</title>
+    <style>
+        #video_info li {
+            text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            margin: 10px auto 20px;
+            border-bottom: 2px solid #ebebeb;
+            padding: 15px 10px;
+        }
+
+        #video_info li .video {
+            flex: 1;
+            display: inline-block;
+            width: 50%;
+            box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.8);
+        }
+
+        #video_info li div {
+            flex: 1;
+            margin-left: 20px;
+            padding: 5px 0;
+        }
+
+        #video_info li div a {
+            display: block;
+            margin: 0 auto 20px;
+            text-decoration: none;
+            color: #666666;
+        }
+
+        #video_info li div a .btn {
+            display: inline-block;
+            text-decoration: none;
+            color: #fff;
+            padding: 10px 8px;
+            border: 1px solid #faad14;
+            background: #faad14;
+            border-radius: 4px;
+            position: relative;
+            padding-left: 24px;
+        }
+
+        #video_info li a .icon {
+            position: absolute;
+            display: inline-block;
+            width: 12px;
+            top: 10px;
+            left: 6px;
+        }
+    </style>
+</head>
+<body style="width:500px;min-height:100px;">
+<div id="video_info"></div>
+</body>
+<script type="text/javascript" src="js/jquery-1.8.3.js"></script>
+<script type="text/javascript" src="js/popup.js"></script>
+</html>
