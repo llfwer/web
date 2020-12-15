@@ -5,10 +5,9 @@
 'use strict';
 
 function click(e) {
-    alert('1')
-    console.log('1')
     chrome.tabs.executeScript(null,
-        {code: "document.body.style.backgroundColor='" + e.target.id + "'"});
+        { code: "document.body.style.backgroundColor='" + e.target.id + "'" });
+    console.log('1')
     window.close();
 }
 
@@ -17,4 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
     for (var i = 0; i < divs.length; i++) {
         divs[i].addEventListener('click', click);
     }
+
+    chrome.browserAction.setBadgeText({ text: 'new' });
+    chrome.browserAction.setBadgeBackgroundColor({ color: [255, 0, 0, 255] });
 });
