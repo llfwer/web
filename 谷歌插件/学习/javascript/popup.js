@@ -17,6 +17,5 @@ document.addEventListener('DOMContentLoaded', function () {
         divs[i].addEventListener('click', click);
     }
 
-    chrome.browserAction.setBadgeText({ text: 'new' });
-    chrome.browserAction.setBadgeBackgroundColor({ color: [255, 0, 0, 255] });
+
 });

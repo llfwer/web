@@ -1,9 +1,11 @@
 {
-  "name": "Study",
+  "manifest_version": 2,
+  "name": "test",
   "description": "学习",
   "version": "1.0.0",
   "browser_action": {
     "default_icon": "icon.png",
+    "default_title": "这是一个示例Chrome插件",
     "default_popup": "popup.html"
   },
   "permissions": [
@@ -26,6 +28,17 @@
         "content.js"
       ],
       "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "*://*/*.png",
+        "*://*/*.jpg",
+        "*://*/*.gif",
+        "*://*/*.bmp"
+      ],
+      "js": [
+        "javascript/show-image-content-size.js"
+      ]
     }
   ],
   "background": {
@@ -36,5 +49,15 @@
   "web_accessible_resources": [
     "inject.js"
   ],
-  "manifest_version": 2
+  "chrome_url_overrides": {
+    "newtab": "html/myweb.html"
+  },
+  "options_ui": {
+    "page": "html/options.html",
+    "chrome_style": true
+  },
+  "omnibox": {
+    "keyword": "go"
+  },
+  "devtools_page": "html/devtools.html"
 }
