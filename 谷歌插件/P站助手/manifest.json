@@ -3,15 +3,19 @@
   "name": "P站助手",
   "version": "1.0.0",
   "description": "P站下载助手",
-  "page_action": {
+  "browser_action": {
     "default_icon": "ic_launcher.png",
     "default_popup": "popup.html"
   },
   "permissions": [
+    "contextMenus",
     "tabs",
+    "notifications",
     "webRequest",
     "webRequestBlocking",
     "storage",
+    "http://*/*",
+    "https://*/*",
     "declarativeContent"
   ],
   "background": {
@@ -27,7 +31,8 @@
       "matches": [
         "https://*.pornhub.com/view_video.php?viewkey=*",
         "https://*.pornhubpremium.com/view_video.php?viewkey=*"
-      ]
+      ],
+      "run_at": "document_start"
     }
   ],
   "web_accessible_resources": [

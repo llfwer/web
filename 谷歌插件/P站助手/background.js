@@ -27,7 +27,7 @@ function init() {
     console.log("Hello, here!")
 
     //setIconText();
-    showTabOnlyPornhub();
+    //showTabOnlyPornhub();
 }
 
 init();

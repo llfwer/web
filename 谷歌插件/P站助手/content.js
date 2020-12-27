@@ -7,7 +7,7 @@ function injectCustomJs(jsPath) {
     temp.src = chrome.extension.getURL(jsPath);
     temp.onload = function () {
         // 放在页面不好看，执行完后移除掉
-        this.parentNode.removeChild(this);
+        //this.parentNode.removeChild(this);
     };
     document.head.appendChild(temp);
 }
@@ -16,22 +16,28 @@ function injectCustomJs(jsPath) {
 function callbackMessage() {
     chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         // console.log(sender.tab ?"from a content script:" + sender.tab.url :"from the extension");
-        if (request.cmd == 'init') {
+        if (request.cmd === 'init') {
             console.log(request.value);
+            console.log(video_data);
+            sendResponse(video_data);
         }
-        sendResponse('我收到了你的消息！');
     });
 }
 
+var video_data;
+
 // 监听注入js发送来的消息
-function listenInjectMessage1() {
+function listenInjectMessage() {
     window.addEventListener("message", function (e) {
-        console.log(e.data);
+        video_data = e.data.data;
+        console.log(video_data);
     }, false);
 }
 
 function init() {
     console.log('content')
+
+    listenInjectMessage()
 
     document.addEventListener('DOMContentLoaded', function () {
         injectCustomJs();
