@@ -8,8 +8,13 @@ function sendMessageToContentScriptByPostMessage(data) {
     window.postMessage({cmd: 'message', data: data}, '*');
 }
 
-// 通过DOM事件发送消息给content-script
-(function () {
+// postMessage发送消息给content
+function sendMessageToContent1() {
+    window.postMessage({"test": '你好！'}, '*');
+}
+
+// 通过DOM事件发送消息给content
+function sendMessageToContent2() {
     var customEvent = document.createEvent('Event');
     customEvent.initEvent('myCustomEvent', true, true);
 
@@ -22,4 +27,11 @@ function sendMessageToContentScriptByPostMessage(data) {
     }
 
     window.sendMessageToContentScriptByEvent = sendMessageToContentScriptByEvent;
-})();
+}
+
+function init() {
+    console.log('inject1')
+    //sendMessageToContent1();
+}
+
+init()
