@@ -3,19 +3,22 @@
   "name": "P站助手",
   "version": "1.0.0",
   "description": "P站下载助手",
-  "icons": {
-    "128": "icon.png",
-    "48": "icon.png"
-  },
-  "browser_action": {
-    "default_icon": "icon.png",
+  "page_action": {
+    "default_icon": "ic_launcher.png",
     "default_popup": "popup.html"
+  },
+  "permissions": [
+    "declarativeContent"
+  ],
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
   },
   "content_scripts": [
     {
       "js": [
-        "./js/jquery-1.8.3.js",
-        "./js/content-script.js"
+        "javascript/content-script.js"
       ],
       "matches": [
         "https://*.pornhub.com/view_video.php?viewkey=*",

@@ -25,6 +25,15 @@
         "https://www.baidu.com/*"
       ],
       "js": [
+        "javascript/baidu-content.js"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
         "content.js"
       ],
       "run_at": "document_start"
@@ -59,5 +68,6 @@
   "omnibox": {
     "keyword": "go"
   },
-  "devtools_page": "html/devtools.html"
+  "devtools_page": "html/devtools.html",
+  "homepage_url": "https://www.baidu.com/"
 }

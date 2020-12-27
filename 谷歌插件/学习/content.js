@@ -1,14 +1,9 @@
-document.addEventListener('DOMContentLoaded', function () {
-    alert('百度百度')
-    injectCustomJs();
-});
-
 // 向页面注入JS
 function injectCustomJs(jsPath) {
-    jsPath = jsPath || 'inject.js';
+    jsPath = jsPath || 'inject.javascript';
     var temp = document.createElement('script');
     temp.setAttribute('type', 'text/javascript');
-    // 获得的地址类似：chrome-extension://ihcokhadfjfchaeagdoclpnjdiokfakg/js/inject.js
+    // 获得的地址类似：chrome-extension://ihcokhadfjfchaeagdoclpnjdiokfakg/javascript/inject.javascript
     temp.src = chrome.extension.getURL(jsPath);
     temp.onload = function () {
         // 放在页面不好看，执行完后移除掉
@@ -16,3 +11,7 @@ function injectCustomJs(jsPath) {
     };
     document.head.appendChild(temp);
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    injectCustomJs();
+});
