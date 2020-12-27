@@ -23,7 +23,11 @@ function showTabOnlyPornhub() {
 }
 
 
-console.log("Hello, here!")
+function init() {
+    console.log("Hello, here!")
 
-//setIconText();
-showTabOnlyPornhub();
+    //setIconText();
+    showTabOnlyPornhub();
+}
+
+init();

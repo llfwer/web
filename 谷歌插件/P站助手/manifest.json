@@ -8,6 +8,10 @@
     "default_popup": "popup.html"
   },
   "permissions": [
+    "tabs",
+    "webRequest",
+    "webRequestBlocking",
+    "storage",
     "declarativeContent"
   ],
   "background": {
@@ -18,12 +22,15 @@
   "content_scripts": [
     {
       "js": [
-        "javascript/content-script.js"
+        "content.js"
       ],
       "matches": [
         "https://*.pornhub.com/view_video.php?viewkey=*",
         "https://*.pornhubpremium.com/view_video.php?viewkey=*"
       ]
     }
+  ],
+  "web_accessible_resources": [
+    "inject.js"
   ]
 }
