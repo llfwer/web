@@ -12,6 +12,19 @@ function init() {
 
     sendMessageToContentScript({cmd: 'init', value: 'init'}, function (response) {
         console.log(response)
+        if (response !== 'init'){
+            //let obj = eval(response);
+            let obj = JSON.parse(response);
+
+            let html = '<li><img class="video" src ="' + obj.cover + '" /><div><h4>' + obj.video_title + '<h4>'
+
+            for (var i = 0; i < obj.quality.length; i++) {
+                html += '<a target="_blank" href="' + obj.quality[i].url + '"><span class="btn"><img class="icon" src="../download.svg"/>Download ' + obj.quality[i].quality + '</span></a>'
+            }
+            html += '</div></li>'
+            let container = document.getElementById('video_info');
+            container.innerHTML = html;
+        }
     });
 }
 

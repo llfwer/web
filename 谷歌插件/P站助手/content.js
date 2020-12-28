@@ -18,28 +18,40 @@ function callbackMessage() {
         // console.log(sender.tab ?"from a content script:" + sender.tab.url :"from the extension");
         if (request.cmd === 'init') {
             console.log(request.value);
-            console.log(video_data);
-            sendResponse(video_data);
+            let hiddenDiv = document.getElementById('myCustomEventDiv');
+            if (hiddenDiv) {
+                sendResponse(hiddenDiv.innerText);
+            } else {
+                sendResponse('init');
+            }
         }
     });
 }
 
-var video_data;
-
 // 监听注入js发送来的消息
 function listenInjectMessage() {
     window.addEventListener("message", function (e) {
-        video_data = e.data.data;
-        console.log(video_data);
+        console.log(e.data.data);
     }, false);
+}
+
+function createEmptyDiv() {
+    let hiddenDiv = document.getElementById('myCustomEventDiv');
+    if (!hiddenDiv) {
+        hiddenDiv = document.createElement('div');
+        hiddenDiv.id = 'myCustomEventDiv';
+        hiddenDiv.style.display = 'none';
+        document.body.appendChild(hiddenDiv);
+    }
 }
 
 function init() {
     console.log('content')
 
-    listenInjectMessage()
+    //listenInjectMessage()
 
     document.addEventListener('DOMContentLoaded', function () {
+        createEmptyDiv();
         injectCustomJs();
     });
 

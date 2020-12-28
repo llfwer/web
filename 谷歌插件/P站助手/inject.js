@@ -42,7 +42,10 @@ function getJsParams() {
                 }
             }
 
-            sendMessageToContent(video_info)
+            let hiddenDiv = document.getElementById('myCustomEventDiv');
+            if (hiddenDiv) {
+                hiddenDiv.innerText = JSON.stringify(video_info)
+            }
         }
     }
 }
