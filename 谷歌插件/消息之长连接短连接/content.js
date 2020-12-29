@@ -1,5 +1,5 @@
 // 监听长连接
-function listenConnect() {
+function listen() {
     chrome.runtime.onConnect.addListener(function (port) {
         console.log(port);
         if (port.name == 'test-connect') {
@@ -14,7 +14,7 @@ function listenConnect() {
 
 function init() {
     console.log('content')
-    listenConnect();
+    listen();
 }
 
 init();

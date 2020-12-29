@@ -6,7 +6,7 @@ function getCurrentTabId(callback) {
 }
 
 // 打开长连接
-function connectToContent() {
+function connect() {
     getCurrentTabId((tabId) => {
         var port = chrome.tabs.connect(tabId, { name: 'test-connect' });
         port.postMessage({ question: '你是谁啊？' });
@@ -20,7 +20,7 @@ function connectToContent() {
 }
 
 function init() {
-    connectToContent()
+    connect()
 }
 
 init();

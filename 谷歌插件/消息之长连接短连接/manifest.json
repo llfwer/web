@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "长连接短链接",
+  "name": "消息之长连接短连接",
   "version": "1.0.0",
   "browser_action": {
     "default_icon": "icon.png",
@@ -9,13 +9,7 @@
   "permissions": [
     "contextMenus",
     "tabs",
-    "notifications",
-    "webRequest",
-    "webRequestBlocking",
-    "storage",
-    "http://*/*",
-    "https://*/*",
-    "declarativeContent"
+    "notifications"
   ],
   "content_scripts": [
     {
