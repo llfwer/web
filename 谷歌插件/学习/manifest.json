@@ -37,17 +37,6 @@
         "content.js"
       ],
       "run_at": "document_start"
-    },
-    {
-      "matches": [
-        "*://*/*.png",
-        "*://*/*.jpg",
-        "*://*/*.gif",
-        "*://*/*.bmp"
-      ],
-      "js": [
-        "javascript/show-image-content-size.js"
-      ]
     }
   ],
   "background": {
