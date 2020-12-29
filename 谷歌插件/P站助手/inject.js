@@ -1,60 +1,43 @@
-// 通过postMessage调用content-script
-function invokeContentScript(code) {
-    window.postMessage({cmd: 'invoke', code: code}, '*');
-}
+function init() {
+    console.log('inject1')
 
-// 发送普通消息到content-script
-function sendMessageToContentScriptByPostMessage(data) {
-    window.postMessage({cmd: 'message', data: data}, '*');
-}
-
-// postMessage发送消息给content
-function sendMessageToContent(data) {
-    window.postMessage({cmd: 'message', data: data}, '*');
-}
-
-// 获取js变量
-function getJsParams() {
-    let content = (document.querySelector("#player >script:nth-child(2)") || document.querySelector("#player >script:nth-child(1)"))
-    if (content) {
-        let html = content.innerHTML
+    let node = (document.querySelector("#player >script:nth-child(2)") || document.querySelector("#player >script:nth-child(1)"))
+    if (!node) {
+        console.log('找不到节点')
+    } else {
+        let html = node.innerHTML
         html = `	var playerObjList = {};` + html
-        let flashvars = html.match("flashvars_[0-9]{1,}")[0]
-        eval(html)
-        if (flashvars) {
-            let play_info = eval(flashvars)
-            let video_info = {}
+        let v = html.match("flashvars_[0-9]{1,}")[0]
+        if (!v) {
+            console.log('找不到变量')
+        } else {
+            eval(html)
+            let obj = eval(v)
+            let info = {}
 
-            video_info['video_title'] = play_info.video_title
-            video_info['link_url'] = play_info.link_url
-            video_info['cover'] = play_info.image_url
-            video_info['quality'] = []
+            info['video_title'] = obj.video_title
+            info['link_url'] = obj.link_url
+            info['cover'] = obj.image_url
+            info['video'] = []
 
-            let mediaList = play_info['mediaDefinitions'];
+            let mediaList = obj['mediaDefinitions'];
             for (let i = 0; i < mediaList.length; i++) {
                 let item = mediaList[i];
 
                 if (item['format'] === 'mp4') {
-                    video_info['quality'].push({
+                    info['video'].push({
                         quality: item['quality'],
                         url: item['videoUrl']
                     })
                 }
             }
 
-            let hiddenDiv = document.getElementById('myCustomEventDiv');
-            if (hiddenDiv) {
-                hiddenDiv.innerText = JSON.stringify(video_info)
+            let element = document.getElementById('myCustomEventDiv');
+            if (element) {
+                element.innerText = JSON.stringify(info)
             }
         }
     }
-}
-
-function init() {
-    console.log('inject1')
-    //sendMessageToContent1();
-
-    getJsParams();
 }
 
 init()

@@ -12,15 +12,25 @@ function injectCustomJs(jsPath) {
     document.head.appendChild(temp);
 }
 
-// 回复popup或者bg的消息
-function callbackMessage() {
+function createEmptyDiv() {
+    let element = document.getElementById('myCustomEventDiv');
+    if (!element) {
+        element = document.createElement('div');
+        element.id = 'myCustomEventDiv';
+        element.style.display = 'none';
+        document.body.appendChild(element);
+    }
+}
+
+// 监听popup的消息
+function listen() {
     chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         // console.log(sender.tab ?"from a content script:" + sender.tab.url :"from the extension");
         if (request.cmd === 'init') {
             console.log(request.value);
-            let hiddenDiv = document.getElementById('myCustomEventDiv');
-            if (hiddenDiv) {
-                sendResponse(hiddenDiv.innerText);
+            let element = document.getElementById('myCustomEventDiv');
+            if (element) {
+                sendResponse(element.innerText);
             } else {
                 sendResponse('init');
             }
@@ -28,34 +38,15 @@ function callbackMessage() {
     });
 }
 
-// 监听注入js发送来的消息
-function listenInjectMessage() {
-    window.addEventListener("message", function (e) {
-        console.log(e.data.data);
-    }, false);
-}
-
-function createEmptyDiv() {
-    let hiddenDiv = document.getElementById('myCustomEventDiv');
-    if (!hiddenDiv) {
-        hiddenDiv = document.createElement('div');
-        hiddenDiv.id = 'myCustomEventDiv';
-        hiddenDiv.style.display = 'none';
-        document.body.appendChild(hiddenDiv);
-    }
-}
-
 function init() {
     console.log('content')
-
-    //listenInjectMessage()
 
     document.addEventListener('DOMContentLoaded', function () {
         createEmptyDiv();
         injectCustomJs();
     });
 
-    callbackMessage();
+    listen();
 }
 
 
