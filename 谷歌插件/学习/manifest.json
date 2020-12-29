@@ -47,9 +47,6 @@
   "web_accessible_resources": [
     "inject.js"
   ],
-  "chrome_url_overrides": {
-    "newtab": "html/myweb.html"
-  },
   "options_ui": {
     "page": "html/options.html",
     "chrome_style": true
