@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "动态JS注入演示",
+  "name": "动态CSS注入演示",
   "version": "1.0.0",
   "browser_action": {
     "default_icon": "icon.png",
@@ -23,6 +23,6 @@
     }
   ],
   "web_accessible_resources": [
-    "inject.js"
+    "inject.css"
   ]
 }
