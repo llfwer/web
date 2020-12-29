@@ -1,27 +1,3 @@
-// 图标添加文字
-function setIconText() {
-    let action = chrome.browserAction;
-    action.setBadgeText({text: 'new'});
-    action.setBadgeBackgroundColor({color: [255, 0, 0, 255]});
-}
-
-// 只有百度才会点亮插件
-function showTabOnlyBaidu() {
-    chrome.runtime.onInstalled.addListener(function () {
-        chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
-            chrome.declarativeContent.onPageChanged.addRules([
-                {
-                    conditions: [
-                        // 只有打开百度才显示pageAction
-                        new chrome.declarativeContent.PageStateMatcher({pageUrl: {urlContains: 'baidu.com'}})
-                    ],
-                    actions: [new chrome.declarativeContent.ShowPageAction()]
-                }
-            ]);
-        });
-    });
-}
-
 // 供popup调用
 function test() {
     console.log('我是background！');
@@ -46,8 +22,6 @@ function listenContentMessage() {
 
 function init() {
     console.log("Hello, here!")
-    //setIconText();
-    //showTabOnlyBaidu();
     listenContentMessage();
 }
 
