@@ -36,14 +36,14 @@ document.getElementById('get_all_resources').addEventListener('click', function 
 });
 
 var myconsole =
-    {
-        _log: function (obj) {
-            // 不知为何，这种方式不行
-            chrome.devtools.inspectedWindow('console.log(' + JSON.stringify(obj) + ')');
-        },
-        log: function (obj) {
-            // 这里有待完善
-            chrome.tabs.executeScript(chrome.devtools.inspectedWindow.tabId, {code: 'console.log(' + JSON.stringify(obj) + ')'}, function () {
-            });
-        }
-    };
+{
+    _log: function (obj) {
+        // 不知为何，这种方式不行
+        chrome.devtools.inspectedWindow('console.log(' + JSON.stringify(obj) + ')');
+    },
+    log: function (obj) {
+        // 这里有待完善
+        chrome.tabs.executeScript(chrome.devtools.inspectedWindow.tabId, { code: 'console.log(' + JSON.stringify(obj) + ')' }, function () {
+        });
+    }
+};
