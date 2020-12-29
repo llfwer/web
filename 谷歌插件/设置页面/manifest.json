@@ -1,11 +1,9 @@
 {
   "manifest_version": 2,
-  "name": "test",
-  "description": "学习",
+  "name": "设置页面",
   "version": "1.0.0",
   "browser_action": {
     "default_icon": "icon.png",
-    "default_title": "这是一个示例Chrome插件",
     "default_popup": "popup.html"
   },
   "permissions": [
@@ -30,13 +28,8 @@
       "run_at": "document_start"
     }
   ],
-  "background": {
-    "scripts": [
-      "background.js"
-    ]
-  },
-  "web_accessible_resources": [
-    "inject.js"
-  ],
-  "homepage_url": "https://www.baidu.com/"
+  "options_ui": {
+    "page": "options.html",
+    "chrome_style": true
+  }
 }
