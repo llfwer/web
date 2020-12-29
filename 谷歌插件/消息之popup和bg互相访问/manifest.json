@@ -1,0 +1,31 @@
+{
+  "manifest_version": 2,
+  "name": "消息之popup和bg互相访问",
+  "version": "1.0.0",
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "contextMenus",
+    "tabs",
+    "notifications"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_start"
+    }
+  ],
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "homepage_url": "https://www.baidu.com/"
+}
