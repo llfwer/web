@@ -1,3 +1,10 @@
+function setInfoToDiv(info) {
+    let element = document.getElementById('myCustomEventDiv');
+    if (element) {
+        element.innerText = JSON.stringify(info)
+    }
+}
+
 function init() {
     console.log('inject1')
 
@@ -25,16 +32,20 @@ function init() {
                 let item = mediaList[i];
 
                 if (item['format'] === 'mp4') {
-                    info['video'].push({
-                        quality: item['quality'],
-                        url: item['videoUrl']
-                    })
-                }
-            }
+                    fetch(item['videoUrl']).catch(function (error) {
+                        setInfoToDiv(info);
+                    }).then(resp => resp.json()).then(function (list) {
+                        for (let j = 0; j < list.length; j++) {
+                            let video = list[j];
 
-            let element = document.getElementById('myCustomEventDiv');
-            if (element) {
-                element.innerText = JSON.stringify(info)
+                            info['video'].push({
+                                quality: video['quality'],
+                                url: video['videoUrl']
+                            });
+                        }
+                        setInfoToDiv(info);
+                    });
+                }
             }
         }
     }
