@@ -21,16 +21,16 @@
 
             if(cmdQueue[callbackId])
             {
-                cmdQueue[callbackId](code, option);
+                cmdQueue[callbackId](code, option, JSON.parse(option));
             }
         };
 
         ///////////////////////////////////// 事件机制 ///////////////////////////////////
 
         // 通知客户端事件信息
-        function notifyEvent(option)
+        function notifyEvent(type, option)
         {
-            var cmd = 'up.event';
+            var cmd = 'UPEvent.' + type;
             upNativeComm.exec(cmd, option);
         }
 
@@ -92,7 +92,6 @@
             }
         };
 
-
         EventMeta.prototype.removeEvent = function(handle)
         {
             var flag = handle['upEventFlag'];
@@ -135,9 +134,8 @@
                 eventInstance = gEventHandleMap.create(type);
                 eventInstance.onHandleCountChange = function(){
                     // 通知客户端
-                    notifyEvent({
-                        count: this.count,
-                        type: type
+                    notifyEvent(type, {
+                        count: this.count
                     });
                 };
             }
@@ -161,7 +159,7 @@
             var instance = gEventHandleMap[type];
             if(instance)
             {
-                var evt = window.gCreateEvent(type, param);
+                var evt = window.gCreateEvent(type, JSON.parse(param));
                 instance.fire(evt);
             }
         };

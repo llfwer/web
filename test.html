@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>JavaScript教程</title>
+
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,minimal-ui">
+    <meta name="format-detection" content="telephone=no">
+
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-family: 微软雅黑;
+            /*移除A标签样式*/
+            text-decoration: none;
+        }
+    </style>
+
+    <script src="lib/tools.js"></script>
+    <script type="text/javascript">
+
+        //点击显示时间
+        function test1(id) {
+            var layout = document.getElementById(id);
+            var sp = document.createElement('div');
+            var btn = document.createElement('button');
+            btn.innerHTML = '点击显示时间';
+            btn.onclick = function () {
+                sp.innerHTML = new Date().toString();
+            };
+            layout.appendChild(sp);
+            layout.appendChild(btn);
+        }
+
+        window.onload = function () {
+            test1('layout');
+        };
+
+    </script>
+
+</head>
+
+<body>
+<div id="layout">
+</div>
+</body>
+</html>

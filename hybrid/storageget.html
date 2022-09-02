@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>UPHybrid</title>
+
+        <script src="uphybrid.js"></script>
+        <script>
+            function onload() {
+                console.log("UserAgent: " + navigator.userAgent);
+                console.log("AppName: " + navigator.appName);
+                console.log("AppCodeName: " + navigator.appCodeName);
+                console.log("AppVersion: " + navigator.appVersion);
+                console.log("AppMinorVersion: " + navigator.appMinorVersion);
+            }
+
+            function on_btn_click1() {
+                var param = {
+                    key: 'a',
+                    callback: function(code, opt) {
+                        alert("Code: " + code);
+                        alert("Result: " + opt);
+                    }
+                };
+
+                upNativeComm.exec("Storage.get", param);
+            }
+        </script>
+    </head>
+
+    <body onload="onload()">
+        <button type="button" onclick="on_btn_click1()">!!!Storage.get!!!</button><br /><br /><br />
+    </body>
+</html>

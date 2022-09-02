@@ -180,9 +180,9 @@
 
         //生成列表
         function test4(id, str) {
-            console.log(typeof(str));
+            console.log(typeof (str));
             let data = JSON.parse(str);
-            console.log(typeof(data));
+            console.log(typeof (data));
             if (data.resultCode == '0000' && !checkNull(data.resultData) && !checkNull(data.resultData.portfolioList)) {
                 var portList = data.resultData.portfolioList;
                 let portLen = portList.length;

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>UPHybrid</title>
+
+        <script src="uphybrid.js"></script>
+        <script>
+            window.onload = function () {
+                var btn1 = document.getElementById('btn1');
+                btn1.onclick = function () {
+                    var input = document.getElementById('value1');
+                    alert("value: " + input.value);
+                    if (input.value != null) {
+                        var param = {
+                            a: input.value,
+                            callback: function(code, opt) {
+                                alert("Code: " + code);
+                                alert("Result: " + opt);
+                            }
+                        };
+                        upNativeComm.exec("Storage.set", param);
+                    }
+                }
+                var btn2 = document.getElementById('btn2');
+                btn2.onclick = function () {
+                    var param = {
+                        url: "https://www.baidu.com/"
+                    };
+                    upNativeComm.exec("WebView.open", param);
+                }
+            }
+        </script>
+    </head>
+
+    <body>
+        <input id="value1" type="text" value=""/></p>
+        <button id="btn1" type="button">!!!Storage.set!!!</button><br /><br /><br />
+        <button id="btn2" type="button">!!!jump!!!</button><br /><br /><br />
+    </body>
+</html>
