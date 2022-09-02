@@ -8,29 +8,23 @@
 
         <script src="uphybrid.js"></script>
         <script>
-            function onload() {
-                console.log("UserAgent: " + navigator.userAgent);
-                console.log("AppName: " + navigator.appName);
-                console.log("AppCodeName: " + navigator.appCodeName);
-                console.log("AppVersion: " + navigator.appVersion);
-                console.log("AppMinorVersion: " + navigator.appMinorVersion);
-            }
-
-            function on_btn_click1() {
-                var param = {
-                    key: 'a',
-                    callback: function(code, opt) {
-                        alert("Code: " + code);
-                        alert("Result: " + opt);
-                    }
-                };
-
-                upNativeComm.exec("Storage.get", param);
+            window.onload = function () {
+                var btn1 = document.getElementById('btn1');
+                btn1.onclick = function () {
+                    var param = {
+                        key: 'a',
+                        callback: function(code, opt) {
+                            alert("Code: " + code);
+                            alert("Result: " + opt);
+                        }
+                    };
+                    upNativeComm.exec("Storage.get", param);
+                }
             }
         </script>
     </head>
 
-    <body onload="onload()">
-        <button type="button" onclick="on_btn_click1()">!!!Storage.get!!!</button><br /><br /><br />
+    <body>
+        <button id="btn1" type="button">!!!Storage.get!!!</button><br /><br /><br />
     </body>
 </html>
