@@ -65,7 +65,7 @@ function init2() {
 
     let words = [];
 
-    Object.values(proJson).forEach(function (item) {
+    /*Object.values(proJson).forEach(function (item) {
         for (let key in item) {
             let child = document.createElement("button");
             child.value = key;
@@ -78,7 +78,7 @@ function init2() {
             }
             container.appendChild(child);
         }
-    })
+    })*/
 
     btn2.onclick = function (e) {
         label3.value = '';
@@ -96,6 +96,38 @@ function init2() {
         label2.value = '';
         label3.value = '';
     };
+
+    document.getElementById('btn4').addEventListener('change', function () {
+        console.log(this.files)
+
+        let file = this.files[0];
+
+        let reader = new FileReader();
+        reader.onload = function (progressEvent) {
+            // Entire file
+            console.log(this.result);
+
+            // By lines
+            let lines = this.result.split('\n');
+            for (let line = 0; line < lines.length; line++) {
+                let arr = lines[line].split(' ');
+
+                let child = document.createElement("button");
+                child.value = arr[1];
+                child.innerText = arr[1] + arr[0];
+                child.onclick = function (e) {
+                    if (!contains(words, child.value)) {
+                        words[words.length] = child.value;
+                        label2.value = words;
+                    }
+                }
+                container.appendChild(child);
+
+                console.log(lines[line]);
+            }
+        };
+        reader.readAsText(file);
+    });
 }
 
 window.onload = function () {
