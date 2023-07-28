@@ -161,7 +161,12 @@ function init2() {
         '{"105":"近N日红黄白K线数目"},' +
         '{"106":"涨跌额"},' +
         '{"107":"市场10日涨幅"},' +
-        '{"108":"入选后10日最大涨幅"}]';
+        '{"108":"入选后10日最大涨幅"},' +
+        '{"109":"入选后20日最大涨幅"},' +
+        '{"110":"入选后涨幅"},' +
+        '{"111":"入选后5日涨幅"},' +
+        '{"112":"入选后10日涨幅"},' +
+        '{"113":"入选后20日涨幅"}]';
 
     let container = document.getElementById('container');
     let btn2 = document.getElementById('btn2');
@@ -177,7 +182,7 @@ function init2() {
         for (let key in item) {
             let child = document.createElement("button");
             child.value = key;
-            child.innerText = key + item[key];
+            child.innerText = key + ' ' + item[key];
             child.onclick = function (e) {
                 if (!contains(words, child.value)) {
                     words[words.length] = child.value;
